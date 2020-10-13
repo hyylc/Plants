@@ -35,8 +35,15 @@
 </template>
 
 <script>
+import { GetCates } from "../apis/read.js"
+
 export default {
-    
+    name : "Header",
+    setup(props, context){ //setup相当于before create;props父组件传入的内容;context当前组件拥有的内容
+        GetCates().then(Response =>{
+            console.log(Response)
+        })
+    }
 }
 </script>
 

@@ -6,21 +6,19 @@
         body部分
       </div>
     </b-container>
+    <Footer />
 
-    <b-container>
-      <div style="height:50px;background-color:blue">
-        footer部分
-      </div>
-    </b-container>
   </div>
 </template>
 
 <script>
 import Header from "../components/Header.vue"
+import Footer from "../components/Footer.vue"
 export default {
   name: "home",
   components: {
-    Header
+    Header,
+    Footer
   }
 };
 </script>
