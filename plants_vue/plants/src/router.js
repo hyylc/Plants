@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import Cate from "./views/Cate.vue";
+import user from "./views/user.vue";
 
 Vue.use(Router);
 
@@ -9,11 +11,26 @@ export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
-    { //首页
+    { //网站首页
       path: "/",
       name: "home",
       component: Home
-    }
+    },
+   
+    
+    //用户信息页面
+    {
+      path: "/userinfo",//是vue里面写的path
+      name: "userinfo",
+      component: user
+    },
+    //植物分类显示页面
+    {
+      path: "/:cate_id",
+      name: "Cate",
+      component: Cate
+    },
+
     //
     //{
     //  path: "/about",
