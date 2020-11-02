@@ -2,9 +2,9 @@
   <div class="home">
     <Header />
     <b-container>
-      <div style="height:1000px;background-color:white">
+      <div style="height:2000px;background-color:white">
         body部分
-         <a href='/Dicotyledoneae'>双子叶植物纲</a>
+         <a href='/Monocotyledoneae'>单子叶植物纲</a>
       </div>
     </b-container>
     <Footer />

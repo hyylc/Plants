@@ -1,16 +1,11 @@
 <template>
-  <div id="Cate">
+  <div id="search_plant">
       <Header />
-      <b-container>
-          <div v-if="headData.headers.length == 0">
-              您要查询的分类页面不存在
-          </div>
+      <b-container class="mt">
         <div style="height:2000px;background-color:pink">
-            //这里要获取不同分类并显示，还得附上url
-            //可以从现有的url获取植物信息
-            
+            <b-row><b-col><h4>查询结果</h4></b-col></b-row>
             <b-row>
-                <b-col cols="12" md="12">    
+                <b-col v-if="headData.headers.length > 0"   cols="12" md="12">    
                     
                     <table role="table" aria-busy="false" aria-colcount="3" class="table b-table table-striped table-hover" ><!----><!---->
                             <thead role="rowgroup" class=""><!---->
@@ -28,6 +23,9 @@
                             </tbody><!---->
                         </table>    
                 </b-col>
+                <b-col v-else> 
+                    查询结果不存在，请重新查询。
+                </b-col>
         </b-row>
         </div>
 
@@ -40,21 +38,22 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
-import { Get_cates } from "../apis/read"
+import { Search_plant } from "../apis/read"
 
 export default{
-    name : "Cate",
+    name : "search_plant",
     components:{
         Header,
         Footer
     },
+    //如何组建提交到flask的参数
     setup(props, context){
-        const now_url = ref(context.root.$route.path)//ref用.value才能获取到url值
+        //const now_url = ref(context.root.$route.path)//ref用.value才能获取到url值
 
         //传递参数，目标链接和查询数据的特点
-        const newestParams = reactive({
-            url:now_url.value,//用于传递请求的链接，这里是植物的标签，直接作为参数传递给后端
-            //key://传递查询的标签
+        const searchParams = reactive({
+            url:'/search',//用于传递请求的链接，这里是植物的标签，直接作为参数传递给后端
+            key:context.root.$route.query.q//在header.vue里加上了query.q这个变量，因此从这里获取输入的数据，作为参数（添加新的植物，可以参考这样的参数传递）
         });
 
         const headData = reactive({
@@ -62,18 +61,20 @@ export default{
         });
 
         //发起请求获得结果
-        Get_cates(newestParams).then(resp => {
-            console.log(resp);
+        Search_plant(searchParams).then(resp => {
+            console.log(resp);//打印
+            console.log("In search resp.data.data = ",resp.data.data)
             headData.headers = resp.data.data;
         });
 
 
         onMounted(()=>{
-            console.log("In Cate context = ", context.root.$route.path)//获取地址
+            console.log("In search context = ", context.root.$route.path)//打印
         });
 
         return {
-            headData
+            headData//,
+            //fields: ['PlantID','PlantName','Characters','Location']
         }
     }
 }
@@ -81,7 +82,6 @@ export default{
 
 
 <style lang='scss' scoped>//lang告诉解释其css符合什么编译器的语法；scoped：当前vue文件生效，没有scoped则全局生效
-
 table
 {
     table-layout: fixed;

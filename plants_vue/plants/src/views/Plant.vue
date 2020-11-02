@@ -1,13 +1,9 @@
 <template>
-  <div id="Cate">
+  <div id="Plant">
       <Header />
       <b-container>
-          <div v-if="headData.headers.length == 0">
-              您要查询的分类页面不存在
-          </div>
         <div style="height:2000px;background-color:pink">
-            //这里要获取不同分类并显示，还得附上url
-            //可以从现有的url获取植物信息
+            //根据plantID获取一个植物的信息
             
             <b-row>
                 <b-col cols="12" md="12">    
@@ -20,7 +16,7 @@
                                 <th role="columnheader" scope="col" aria-colindex="3" class=""><div>Location</div></th></tr>
                             </thead>
                             <tbody role="rowgroup"><!---->
-                                <tr role="row" v-for="item in headData.headers" :key="item.PlantID">
+                                <tr role="row" v-for="item in headData.headers" :key="item.id">
                                 <td aria-colindex="1" role="cell" class=""><a :href="'/plant/'+ item.PlantID">{{ item.PlantName }}</a></td>
                                 <td aria-colindex="2" role="cell" class="">{{ item.Characters }}</td>
                                 <td aria-colindex="3" role="cell" class="">{{ item.Location }}</td></tr>
@@ -29,6 +25,14 @@
                         </table>    
                 </b-col>
         </b-row>
+
+        <ul  class="navbar-nav ml-auto">
+                    <li class="form-inline">
+                        <div class="form-inline">
+                           <button @click="Oncollect"  type="submit" class="btn my-2 my-sm-0 btn-secondary btn-sm">点击收藏</button>
+                        </div>
+                    </li>
+                </ul>
         </div>
 
       </b-container>
@@ -40,10 +44,10 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
-import { Get_cates } from "../apis/read"
+import { Get_one_plant } from "../apis/read"
 
 export default{
-    name : "Cate",
+    name : "Plant",
     components:{
         Header,
         Footer
@@ -62,18 +66,24 @@ export default{
         });
 
         //发起请求获得结果
-        Get_cates(newestParams).then(resp => {
-            console.log(resp);
+        Get_one_plant(newestParams).then(resp => {
+            console.log("resp = ",resp);
             headData.headers = resp.data.data;
         });
 
+        const Oncollect = ()=>{
+            console.log("待完成的代码");
+
+        };
 
         onMounted(()=>{
-            console.log("In Cate context = ", context.root.$route.path)//获取地址
+            console.log("In Plant context = ", context.root.$route.path)//获取地址
         });
 
         return {
-            headData
+            headData,
+            Oncollect
+            //fields: ['PlantID','PlantName','Characters','Location']
         }
     }
 }

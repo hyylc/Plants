@@ -18,6 +18,27 @@ class User(object):
         self.cursor.close()
         self.conn.close()
     
+    #用户注册
+    def login_up(self,item):
+        sql = "select MAX(PlantID) from plant"
+        try:
+            self.cursor.execute(sql)             # 执行单条sql语句
+            self.conn.commit()                     # 提交到数据库执行
+            #return True
+        except:
+            self.conn.rollback()                   # Rollback in case there is any error
+        id_count = self.cursor.fetchall()
+        
+        sql = "insert into ordinaryuser values (%s,%s,%s,now(),'u',0)"
+        self.cursor.execute(sql,[id_count+1,item['name'],item['pwd']])
+        try:
+            self.cursor.execute(sql)             # 执行单条sql语句
+            self.conn.commit()                     # 提交到数据库执行
+            return True
+        except:
+            self.conn.rollback()                   # Rollback in case there is any error
+        return False
+
     #登录处理
     def user_sign_in(self,u_name,u_pwd):
         # 3.sql语句
@@ -26,25 +47,52 @@ class User(object):
         # 4.处理结果，查询单条数据，无需提交
         rs = self.cursor.fetchone()
         print(rs)
-        # 5.关闭
-        self.conn.close()
 
         # 用户名和密码不正确
-        if rs == None:
-            flash('登录失败，用户名或者密码不正确')
-            return render_template('login.html')
-        else:
-            # 设置会话
-            session['name'] = u_name
-            # 获取会话中的值 session['name']
-            return render_template('index.html',name = u_name)
+        return rs
 
+    #修改用户信息
+    def modify_userinfo(self,user_id,param):
+        sql = "update ordinaryuser set UserName = '"+param['new_name']+"' where UserID = '"+user_id+"'"
+        print(sql)
+        try:
+            self.cursor.execute(sql)             # 执行单条sql语句
+            self.conn.commit()                     # 提交到数据库执行
+            return True
+        except:
+            self.conn.rollback()                   # Rollback in case there is any error
+        return False
 
-    def get_one_user(self):
-        sql = 'select * from ordinaryuser limit 1'
+    #修改密码
+    def modify_passwd(self,user_id,param):
+        sql = "update ordinaryuser set UserPassword = '"+param['new_pwd']+"' where UserID = '"+user_id+"'"
+        print(sql)
+        try:
+            self.cursor.execute(sql)             # 执行单条sql语句
+            self.conn.commit()                     # 提交到数据库执行
+            return True
+        except:
+            self.conn.rollback()                   # Rollback in case there is any error
+        return False
+
+    #获得一个用户的个人资料
+    def get_one_user(self,user_id):
+        sql = "select * from ordinaryuser where UserID = "+str(user_id)
+        print(sql)
         self.cursor.execute(sql)
         data = []
         for temp in self.cursor.fetchall(): # 所有结果
             print(temp)
             data.append(temp)
         return data # 以数组形式返回
+
+    def delete_user(self,user_id):
+        sql = "delete from ordinaryuser where UserID = '"+user_id+"'"
+        print(sql)
+        try:
+            self.cursor.execute(sql)             # 执行单条sql语句
+            self.conn.commit()                     # 提交到数据库执行
+            return True
+        except:
+            self.conn.rollback()                   # Rollback in case there is any error
+        return False
