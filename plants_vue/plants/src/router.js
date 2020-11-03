@@ -7,7 +7,7 @@ import user from "./views/user.vue";
 import Plant from "./views/Plant.vue";
 import CreateP from "./views/Create_plant.vue";
 import plantsearch from "./views/Search_plant.vue";
-
+import txj_sign from "./views/txj_Signin.vue";
 
 Vue.use(Router);
 
@@ -32,12 +32,18 @@ export default new Router({
       name: "userinfo",
       component: user
     },
-      //植物搜索展示页面，匹配到之后就不会继续匹配了，所以要放在植物分类页面前面
-      {
-        path: "/search",
-        name: "plantsearch",
-        component: plantsearch
-      },
+    //植物搜索展示页面，匹配到之后就不会继续匹配了，所以要放在植物分类页面前面
+    {
+      path: "/search",
+      name: "plantsearch",
+      component: plantsearch
+    },
+    //txj的登录页面
+    {
+      path: "/txj_signin",
+      name: "txj_sign",
+      component: txj_sign
+    },
     //植物信息展示页面
     {
       path: "/plant/:plant_id",

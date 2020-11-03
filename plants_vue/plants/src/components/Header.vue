@@ -4,10 +4,13 @@
             <b-navbar-brand href="#">植物信息检索</b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
-            <b-navbar-nav>
+            <b-navbar-nav v-if="User.UserID !== undefined">
                     这里要修改，获取全局变量，登陆后，将用户的ID作为url的一部分
                     <b-nav-item v-for = "item in headData.headers" :key="item.id" :href="item.url" :class="item.url == now_url ? 'active' : ''">{{item.name}}</b-nav-item>
                     <a>{{User.UserID}}</a>
+            </b-navbar-nav>
+            <b-navbar-nav v-else>
+                注册/登录
             </b-navbar-nav>
             <ul  class="navbar-nav ml-auto">
                 <li class="form-inline">
