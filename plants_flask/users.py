@@ -20,7 +20,7 @@ class User(object):
     
     #用户注册
     def login_up(self,item):
-        sql = "select MAX(PlantID) from plant"
+        sql = "select MAX(UserID) from ordinaryuser"
         try:
             self.cursor.execute(sql)             # 执行单条sql语句
             self.conn.commit()                     # 提交到数据库执行
@@ -28,16 +28,19 @@ class User(object):
         except:
             self.conn.rollback()                   # Rollback in case there is any error
         id_count = self.cursor.fetchall()
-        
-        sql = "insert into ordinaryuser values (%s,%s,%s,now(),'u',0)"
-        self.cursor.execute(sql,[id_count+1,item['name'],item['pwd']])
+        print("用户数量 = ",id_count[0]['MAX(UserID)'])
+
+        print(item['name'],item['pwd'])
+        sql = "insert into ordinaryuser values ("+str(id_count[0]['MAX(UserID)']+1)+",'"+item['name']+"','"+item['pwd']+"',now(),'u',0)"
+        #self.cursor.execute(sql,[item['name'],item['pwd']])
+        print(sql)
         try:
             self.cursor.execute(sql)             # 执行单条sql语句
             self.conn.commit()                     # 提交到数据库执行
             return True
         except:
             self.conn.rollback()                   # Rollback in case there is any error
-        return False
+            return False
 
     #登录处理
     def user_sign_in(self,u_name,u_pwd):

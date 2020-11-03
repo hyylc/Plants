@@ -14,6 +14,17 @@ export function do_login(userinfo){
 };
 
 
+export function do_register(userinfo){
+    return service.request({
+        method : "post",
+        url : "/userloginup",//对应flask里的路由
+        data:{
+            uname : userinfo.username,
+            upwd : userinfo.password
+        }
+    });
+};
+
 export function Get_header(){
     return service.request({
         method : "get",

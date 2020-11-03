@@ -14,8 +14,9 @@
 				<div class="big-contain" v-else>
 					<div class="btitle">创建账户</div>
 					<div class="bform">
-						<input type="text" placeholder="用户名" v-model="user.username">
-						<input type="text" placeholder="密码" v-model="user.password">
+						<input v-model="user1.username" type="text" placeholder="用户名" >
+						<input v-model="user1.password" type="text" placeholder="密码" >
+						<input v-model="user1.password2" type="text" placeholder="再次密码" >
 					</div>
 					<button class="bbutton" @click="register">注册</button>
 				</div>
@@ -43,6 +44,7 @@ import Footer from "../components/Footer";
 import { stripscript } from "../apis/validate.js"
 import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
 import { do_login } from "../apis/read"
+import { do_register } from "../apis/read"
 
 export default{
 		name:'login-register',
@@ -55,13 +57,21 @@ export default{
 			onMounted(()=>{
 				console.log("In onMounted username = ",user.username);
 				console.log("In onMounted password = ",user.password);
+				console.log("In onMounted password = ",user.password2);
 				alert(user.username);
-				alert(user.password)
+				alert(user.password);
+				alert(user.password2)
 			});
 			//数据绑定
 			const user = reactive({
 				username:'',
 				password:''
+			});
+
+			const user1 = reactive({
+				username:'',
+				password:'',
+				password2:''
 			});
 
 			const isLogin = reactive({
@@ -71,6 +81,11 @@ export default{
 
 			const changeType = ()=>{
 				isLogin.flag = !isLogin.flag
+				user1.username = ''
+				user1.password = ''
+				user2.password2 = ''
+				user.username = ''
+				user.password = ''
 			};
 
 			// function changeType(){
@@ -91,6 +106,9 @@ export default{
 						console.log("In login resp.data.data = ",resp.data.data)
 						if (resp.data.resCode == 0){
 							///登录成功,保存session,跳转到用户首页
+							alert('登录成功！');
+
+
 							console.log("UserID = ",resp.data.data.UserID)
 							//UserID保持到窗口关闭
 							window.sessionStorage.setItem('UserID',resp.data.data.UserID)
@@ -107,17 +125,50 @@ export default{
 				}
 			};
 
+			const register = ()=>{
+				console.log("In register username = ",user1.username);
+				console.log("In register password = ",user1.password);
+				console.log("In register password = ",user1.password2);
+
+				if(stripscript(user1.username) == false || user1.username == '' || 
+				user1.password == false || user1.password == ''||user1.password2 == false || user1.password2 == ''){
+					alert("输入信息有误，请确认后重新输入。")
+				} 
+				else if(user1.password != user1.password2){
+					alert("两次密码不一致，请确认后重新输入。")
+				} 
+				else{
+					//发起请求获得结果
+					do_register(user1).then(resp => {
+						console.log("In register resp = ",resp);
+						console.log("In register resp.data.message = ",resp.data.message)
+						if (resp.data.resCode == 0){
+							///登录成功,保存session,跳转到用户首页
+							alert('注册成功！');
+							
+							isLogin.flag = !isLogin.flag;
+							//console.log("UserID = ",resp.data.data.UserID)
+						}
+						else{
+							//停留在当前页面
+							alert('用户名或密码输入有误，请重新输入');
+						}
+					});
+				}
+			};
+
 			return{
 				Header,
 				Footer,
 				user,
+				user1,
 				Onlogin,
+				register,
 				isLogin,
 				changeType
 			}
      }
 }
-
 
 </script>
 

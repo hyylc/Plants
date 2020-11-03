@@ -102,9 +102,10 @@ def add_user():
         #获取参数
         get_data = json.loads(request.get_data(as_text=True))
         param = {
-            'name' : get_data['u_login_up_name'],
-            'pwd' : get_data['u_login_up_pwd']
+            'name' : get_data['uname'],
+            'pwd' : get_data['upwd']
         }
+        print("姓名 = ",param['name'])
         #初始化
         u = User()
         #不合法输入怎么办？
@@ -119,6 +120,7 @@ def add_user():
         #u.login_up()函数还没写哦
         data = u.login_up(param)
         print('param = ',param)
+        print('data = ',data)
         if data == False:
             resData = {
                 "resCode" : 0,            
