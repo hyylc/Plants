@@ -1,42 +1,68 @@
 <template>
 	<div class="login-register">
+		
+      <Header />
 		<div class="contain">
 					<div class="btitle">修改资料</div>
 					<div class="bform">
-						<input type="text" placeholder="用户名" v-model="form.username">
+						<input type="text" placeholder="用户名" v-model="user.new_name">
 					</div>
-					<button class="bbutton" @click="login">保存设置</button>
-			
-
-			
+					<button class="bbutton" type="submit" @click="OnReset">保存设置</button>
 		</div>
+		<Footer />
 	</div>
 </template>
 
 <script>
-	export default{
-		name:'login-register',
-		data(){
-			return {
-				isLogin:false,
-				existed: false,
-				form:{
-					username:'',
-					useremail:'',
-					userpwd:''
-				}
-			}
-		},
-		methods:{
-			changeType() {
-			},
-			login() {
-        Resetuserinfo
-			},
-			register(){
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import { stripscript } from "../apis/validate"
+import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
+import { Reset_userinfo } from "../apis/read"
 
+export default{
+		name:'login-register',
+		components:{
+			Header,
+			Footer
+		},
+		setup(props, context){
+
+			const user = reactive({
+				new_name : '',
+				userID : ''
+			});
+
+			user.userID = window.sessionStorage.UserID
+            console.log('In Reset user.userID = ',user.userID)
+			
+			
+			const OnReset = ()=>{
+				if(stripscript(user.new_name) == false || user.new_name == ''){
+               		alert("输入信息有误，请确认后重新输入。")
+            	} 
+				else{
+					//发起请求获得结果
+					Reset_userinfo(user).then(resp => {
+						console.log("In login resp = ",resp);
+						console.log("In login resp.data.data = ",resp.data.data)
+						if (resp.data.resCode == 0){
+							alert('修改成功')
+						}
+						else{
+							//停留在当前页面
+							alert('修改失败');
+						}
+					});
+				}	
+			};
+
+			return{
+				user,
+				OnReset
 			}
-		}
+		 }
+		
 	}
 </script>
 

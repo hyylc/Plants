@@ -19,7 +19,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { stripscript } from "../apis/validate.js"
 import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
-import { do_login } from "../apis/read"
+import { do_login } from "../apis/read.js"
 
 export default{
     name : "login_in",

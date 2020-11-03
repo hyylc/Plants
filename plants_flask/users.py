@@ -55,8 +55,8 @@ class User(object):
         return rs
 
     #修改用户信息
-    def modify_userinfo(self,user_id,param):
-        sql = "update ordinaryuser set UserName = '"+param['new_name']+"' where UserID = '"+user_id+"'"
+    def modify_userinfo(self,user_id,new_name):
+        sql = "update ordinaryuser set UserName = '"+new_name+"' where UserID = '"+user_id+"'"
         print(sql)
         try:
             self.cursor.execute(sql)             # 执行单条sql语句

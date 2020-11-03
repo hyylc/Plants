@@ -1,5 +1,6 @@
 <template>
 	<div class="login-register">
+		
 		<div class="contain">
 					<div class="btitle">个人资料</div>
 					<div class="bform">
@@ -16,6 +17,7 @@
 </template>
 
 <script>
+
 	export default{
 		name:'login-register',
 		data(){

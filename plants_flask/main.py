@@ -147,26 +147,28 @@ def add_user():
 # 修改用户信息（实质上就是修改用户名，这里要注意无意义字符的判断，规定好用户名的格式和长度）
 # 管理员不能修改用户信息~
 # （用户ID和新用户名）
-@app.route('/<int:user_id>/modify_userinfo',methods=['GET','POST']) # 路由
-def modify_userinfo(user_id):
+@app.route('/modify_userinfo',methods=['GET','POST']) # 路由
+def modify_userinfo():
     if request.method == 'POST':
         #获取参数
-        print('捕获到post请求：',user_id,' 修改昵称')
         get_data = json.loads(request.get_data(as_text=True))
         param = {
-            'new_name' : get_data['new_name']
+            'new_name' : get_data['new_name'],
+            'user_id' : get_data['userID']
         }
+        print('user_id = ',param['user_id'],' new_name = ',param['new_name'])
         #不合法输入怎么办？
-        if is_string_validate(param['new_name']):
-            resData = {
-                "resCode": 1, # 非0即错误 1
-                "data": [],
-                "message": '昵称不符合要求，请重新输入'
-            }
-            return jsonify(resData)
+        for i in param:
+            if is_string_validate(param[i]):
+                resData = {
+                    "resCode": 1, # 非0即错误 1
+                    "data": [],
+                    "message": '昵称不符合要求，请重新输入'
+                }
+                return jsonify(resData)
         #初始化
         u = User()
-        data = u.modify_userinfo(user_id,param)
+        data = u.modify_userinfo(param['user_id'],param['new_name'])
         if data == True:
             resData = {
                 "resCode" : 0,            

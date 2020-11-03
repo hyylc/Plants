@@ -42,6 +42,8 @@ export function Get_userinfo(userParam){
     });
 };
 
+
+
 export function Get_cates(postParams){
     return service.request({
         method : 'POST',
@@ -71,4 +73,15 @@ export function Search_plant(searchParam){
             key : searchParam.key
         }
     })
+};
+
+export function Reset_userinfo(userParam){
+    return service.request({
+        method : "POST",
+        url : "/modify_userinfo",
+        data :{
+            userID : userParam.userID,
+            new_name : userParam.new_name
+        }
+    });
 };

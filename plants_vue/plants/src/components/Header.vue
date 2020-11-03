@@ -54,7 +54,7 @@ export default {
         
         //获取已登录的用户信息
         User.UserID = window.sessionStorage.UserID
-        console.log("userID get from winsow.sessionStorage = ",User.UserID)
+        console.log("userID get from window.sessionStorage = ",User.UserID)
       
         headData.headers = [
             {'id':0,'name':'首页','url':'/'},
