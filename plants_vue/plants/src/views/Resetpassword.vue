@@ -1,13 +1,14 @@
 <template>
 	<div class="login-register">
-		
       <Header />
 		<div class="contain">
-					<div class="btitle">修改资料</div>
+					<div class="btitle">修改密码</div>
 					<div class="bform">
-						<input type="text" placeholder="用户名" v-model="user.new_name">
+						<input type="text" placeholder="输入密码" v-model="user.userpwd">
+						<input type="text" placeholder="输入新密码" v-model="user.newuserpwd">
+						<input type="text" placeholder="再次输入新密码" v-model="user.renewuserpwd">
 					</div>
-					<button class="bbutton" type="submit" @click="OnReset">保存设置</button>
+					<button class="bbutton" @click="changepass">修改密码</button>
 		</div>
 		<Footer />
 	</div>
@@ -16,11 +17,12 @@
 <script>
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { stripscript } from "../apis/validate"
+import { stripscript } from "../apis/validate";
 import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
-import { Reset_userinfo } from "../apis/read"
+import { Get_userinfo } from "../apis/read";
+import { Reset_userpwd } from "../apis/read";
 
-export default{
+	export default{
 		name:'login-register',
 		components:{
 			Header,
@@ -29,26 +31,46 @@ export default{
 		setup(props, context){
 
 			const user = reactive({
-				new_name : '',
+				userpwd : '',
+				newuserpwd : '',
+				renewuserpwd : '',
 				userID : ''
+			});
+
+			const getuser = reactive({
+				password : ''
 			});
 
 			user.userID = window.sessionStorage.UserID
             console.log('In Reset user.userID = ',user.userID)
 			
-			
-			const OnReset = ()=>{
-				if(stripscript(user.new_name) == false || user.new_name == ''){
+			Get_userinfo(user).then(resp => {
+				console.log("In reset response.data.data.UserPassword = ",resp.data.data[0].UserPassword)
+				console.log("In reset user.userpwd = ",user.userpwd)
+				getuser.password = resp.data.data[0].UserPassword
+				
+			});
+
+			const changepass = ()=>{// == false什么鬼，这里要修改，用stripscript判断有没有非法字符
+				if(user.userpwd == false || user.userpwd == ''||user.newuserpwd == false || user.newuserpwd == ''||user.renewuserpwd == false || user.renewuserpwd == ''
+				){
                		alert("输入信息有误，请确认后重新输入。")
-            	} 
+				}
+				else if(user.newuserpwd != user.renewuserpwd ){
+               		alert("两次输入密码不一致，请确认后重新输入。")
+				}
+				else if ((user.userpwd != getuser.password)){
+					alert("原密码错误，请确认后重新输入。")
+				}
 				else{
-					
 					//发起请求获得结果
-					Reset_userinfo(user).then(resp => {
-						console.log("In login resp = ",resp);
-						console.log("In login resp.data.data = ",resp.data.data)
+					//这里的函数时并发运行的，不能写在一起。
+					//resp是接口最后的返回值，不能接口套接口，把get_userinfo写在前面了
+					Reset_userpwd(user).then(resp => {
+						console.log("In reset resp.data.data = ",resp.data.data)
 						if (resp.data.resCode == 0){
 							alert('修改成功');
+							//修改成功后跳回个人中心
 							context.root.$router.push({
                             	path:'/userinfo/'+user.userID
                         	});
@@ -58,12 +80,12 @@ export default{
 							alert('修改失败');
 						}
 					});
-				}	
+				}
 			};
-
+			
 			return{
 				user,
-				OnReset
+				changepass
 			}
 		 }
 		
@@ -71,7 +93,7 @@ export default{
 </script>
 
 <style scoped="scoped">
-.login-register{
+	.login-register{
 		width: 100vw;
 		height: 100vh;
 		box-sizing: border-box;

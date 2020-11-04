@@ -85,3 +85,13 @@ export function Reset_userinfo(userParam){
         }
     });
 };
+export function Reset_userpwd(userParam){
+    return service.request({
+        method : "POST",
+        url : "/modify_pwd",
+        data :{
+            userID : userParam.userID,
+            new_pwd : userParam.newuserpwd
+        }
+    });
+};

@@ -67,8 +67,8 @@ class User(object):
         return False
 
     #修改密码
-    def modify_passwd(self,user_id,param):
-        sql = "update ordinaryuser set UserPassword = '"+param['new_pwd']+"' where UserID = '"+user_id+"'"
+    def modify_passwd(self,user_id,new_pwd):
+        sql = "update ordinaryuser set UserPassword = '"+new_pwd+"' where UserID = '"+user_id+"'"
         print(sql)
         try:
             self.cursor.execute(sql)             # 执行单条sql语句

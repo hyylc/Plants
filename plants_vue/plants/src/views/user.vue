@@ -14,7 +14,7 @@
                 </li>
                </ul>
                <button class="bbutton" @click="changeinfo">修改信息</button>	
-					
+               <button class="bbutton" @click="changepass">修改密码</button>						
 		  </div>
       </b-container>
       <Footer />
@@ -46,6 +46,11 @@ export default{
 			 context.root.$router.push({
                         path:'/Resetuserinfo',
              });
+        };
+         const changepass = ()=>{
+			 context.root.$router.push({
+                        path:'/Resetpassword',
+             });
 		};
     
 
@@ -74,7 +79,8 @@ export default{
 
         return {
             user,
-            changeinfo
+            changeinfo,
+            changepass
         }
     }
 }

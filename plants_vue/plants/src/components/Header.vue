@@ -43,10 +43,10 @@ export default {
             UserID:''
         });
 
-        onMounted(()=>{
-            console.log("In Header search.key = ",search.key);
-            alert(search.key)
-        });
+        // onMounted(()=>{
+        //     console.log("In Header search.key = ",search.key);
+        //     alert(search.key)
+        // });
         //数据绑定
         const search = reactive({
             key:''
@@ -54,18 +54,18 @@ export default {
         
         //获取已登录的用户信息
         User.UserID = window.sessionStorage.UserID
-        console.log("userID get from window.sessionStorage = ",User.UserID)
+        //console.log("userID get from window.sessionStorage = ",User.UserID)
       
         headData.headers = [
             {'id':0,'name':'首页','url':'/'},
             {'id':1,'name':'个人中心','url':'/userinfo/'+User.UserID}
         ]
-        console.log("headData.headers = ",headData.headers)
+        //console.log("headData.headers = ",headData.headers)
 
 
 
         const Onsearch = ()=>{
-            console.log("In Header search.key = ",search.key);
+            //console.log("In Header search.key = ",search.key);
 
             if(stripscript(search.key) == false || search.key == ''){
                 alert("输入信息有误，请确认后重新输入。")

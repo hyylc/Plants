@@ -9,6 +9,7 @@ import CreateP from "./views/Create_plant.vue";
 import plantsearch from "./views/Search_plant.vue";
 import txj_sign from "./views/txj_Signin.vue";
 import Resetuinfo from "./views/Resetuserinfo.vue";
+import Resetpassword from "./views/Resetpassword.vue";
 
 Vue.use(Router);
 
@@ -26,6 +27,11 @@ export default new Router({
       path: "/Resetuserinfo",
       name: "Resetuserinfo",
       component: Resetuinfo
+    },
+    {//修改密码页面
+      path: "/Resetpassword",
+      name: "Resetpassword",
+      component: Resetpassword
     },
     { //网站首页
       path: "/",

@@ -195,14 +195,14 @@ def modify_userinfo():
 
 # 修改密码（用户ID和用户密码，新密码？？？？这里再想一下）
 # 用户ID和旧密码，新密码（提交前，在script里判断输入的两次密码是否相同，如何实现百度一下）
-@app.route('/<int:user_id>/modify_pwd',methods=['GET','POST'])
-def modify_passwd(user_id):
+@app.route('/modify_pwd',methods=['GET','POST'])
+def modify_passwd():
     if request.method == 'POST':
         #获取参数
-        print('捕获到post请求：',user_id,' 修改密码')
         get_data = json.loads(request.get_data(as_text=True))
         param = {
-            'new_pwd' : get_data['new_pwd']
+            'new_pwd' : get_data['new_pwd'],
+            'user_id' : get_data['userID']
         }
         #不合法输入怎么办？
         if is_string_validate(param['new_pwd']):
@@ -214,7 +214,7 @@ def modify_passwd(user_id):
             return jsonify(resData)
         #初始化
         u = User()
-        data = u.modify_passwd(user_id,param)
+        data = u.modify_passwd(param['user_id'],param['new_pwd'])
         if data == True:
             resData = {
                 "resCode" : 0,            
