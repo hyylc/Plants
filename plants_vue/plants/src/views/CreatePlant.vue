@@ -1,70 +1,75 @@
 <template>
-  <div id="Plant">
-      <Header />
-<div class="contain">
-					<div class="btitle">植物信息</div>
+	<div class="login-register">
+		<Header />
+		<div class="contain">
+					<div class="btitle">发布植物信息</div>
 					<div class="bform">
-				<ul>
-                <li v-for="item in headData.headers" :key="item.UserID">
-                    <div class="bform">
-						<p><span>植物名称:</span><a>{{item.PlantName}} </a></p>
-						<p><span>植物性状:</span><a>{{item.Characters}} </a></p>
-						<p><span>门:</span><a>{{item.Phylum}} </a></p>
-						<p><span>纲:</span><a>{{item.Class}} </a></p>
-						<p><span>目:</span><a>{{item.Order}} </a></p>
-						<p><span>科:</span><a>{{item.Family}} </a></p>
-						<p><span>属:</span><a>{{item.Genus}} </a></p>
-						<p><span>种:</span><a>{{item.Specices}} </a></p>
-						<p><span>植物分布:</span><a>{{item.Location}} </a></p>
+						
+              		<ul>
+						<p><span>植物名称:</span><input type="text" v-model="plantinfo.PlantName" ></p>
+						<p><span>植物性状:</span><input type="sex"  v-model="plantinfo.Characters"></p>
+						<p><span>门:</span><input type="door1"  v-model="plantinfo.Phylum"></p>
+						<p><span>纲:</span><input type="door2"  v-model="plantinfo.Class"></p>
+						<p><span>目:</span><input type="door3"  v-model="plantinfo.Order"></p>
+						<p><span>科:</span><input type="door4"  v-model="plantinfo.Family"></p>
+						<p><span>属:</span><input type="door5"  v-model="plantinfo.Genus"></p>
+						<p><span>种:</span><input type="door6"  v-model="plantinfo.Specices"></p>
+						<p><span>植物分布:</span><input type="where" v-model="plantinfo.Location"></p>
+               		</ul>
 					</div>
-                </li>
-               </ul>
-              	
-			</div>
-                    
-               <button @click="Oncollect"  class="bbutton">点击收藏</button>
+					<button class="bbutton" @click="Oncreate">确认发布</button>
 			
 
 			
 		</div>
 		
       <Footer />
-  </div>
+	</div>
 </template>
 
 <script>
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { stripscript } from "../apis/validate"
 import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
-import { Get_one_plant } from "../apis/read"
+import { Create_plantinfo} from "../apis/read"
 
-export default{
-    name : "Plant",
-    components:{
+
+	export default{
+		name:'login-register',
+		components:{
         Header,
         Footer
-    },
+    	},
     setup(props, context){
         const now_url = ref(context.root.$route.path)//ref用.value才能获取到url值
 
-        //传递参数，目标链接和查询数据的特点
-        const newestParams = reactive({
-            url:now_url.value,//用于传递请求的链接，这里是植物的标签，直接作为参数传递给后端
-            //key://传递查询的标签
+    
+
+        const plantinfo = reactive({
+			PlantName :'',
+			Characters :'',
+			Phylum :'',
+			Class :'',
+			Order :'',
+			Family :'',
+			Genus :'',
+			Specices :'',
+			Location :''
         });
 
-        const headData = reactive({
-            headers:[]
-        });
-
+		
         //发起请求获得结果
-        Get_one_plant(newestParams).then(resp => {
-            console.log("resp = ",resp);
-            headData.headers = resp.data.data;
-        });
 
-        const Oncollect = ()=>{
-            console.log("待完成的代码");
+        const Oncreate = ()=>{
+			console.log("待完成的代码");
+			console.log("now Genus = ",plantinfo.Genus)
+			console.log("now Specices = ",plantinfo.Specices)
+			console.log("now Location = ",plantinfo.Location)
+			console.log("now Family = ",plantinfo.Family)
+			Create_plantinfo(plantinfo).then(resp => {
+				console.log("resp = ",resp);
+			});
 
         };
 
@@ -73,28 +78,25 @@ export default{
         });
 
         return {
-            headData,
-            Oncollect
+            plantinfo,
+			Oncreate
             //fields: ['PlantID','PlantName','Characters','Location']
         }
     }
-}
+	}
 </script>
 
-
-
-
 <style scoped="scoped">
-	.Plant{
+	.login-register{
 		width: 100vw;
 		height: 100vh;
 		box-sizing: border-box;
 	}
-    .contain{
+	.contain{
 		width: 60%;
-		height: 60%;
+		height: 100%;
 		position: relative;
-        margin-top: 300px;
+		top: 50%;
 		left: 50%;
 		transform: translate(-50%,-50%);
 		background-color: #fff;
@@ -106,7 +108,7 @@ export default{
 		width: 100%;
 		height: 100%;
 		position: absolute;
-		top: 100;
+		top: 0;
 		left: 30%;
 		transform: translateX(0%);
 		transition: all 1s;
@@ -134,9 +136,6 @@ export default{
 		justify-content: space-around;
 		align-items: center;
 	}
-    li{
-        list-style: none;
-    }
     p{
         text-align: left;
         font-size: 0.2rem;

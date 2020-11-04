@@ -7,9 +7,9 @@
               <ul>
                 <li v-for="item in user.userinfo" :key="item.UserID">
                     <div class="bform">
-						<span>昵称:</span><h>{{item.UserName}}</h>
-						<span>用户类别:</span><h>{{item.UserType}}</h>
-						<span>注册时间:</span><h>{{item.RegisterTime}}</h>
+						<p><span>昵称:</span><a>{{item.UserName}}</a></p>
+						<p><span>用户类别:</span><a>{{item.UserType}}</a></p>
+						<p><span>注册时间:</span><a>{{item.RegisterTime}}</a></p>
 					</div>
                 </li>
                </ul>
@@ -141,7 +141,7 @@ export default{
     li{
         list-style: none;
     }
-    h{
+    p{
         text-align: left;
         font-size: 1.2rem;
         margin:auto;

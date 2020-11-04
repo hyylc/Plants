@@ -58,6 +58,13 @@ export function Get_one_plant(postParams){
     })
 };
 
+export function Get_one_plant1(postParams){
+    return service.request({
+        method : 'POST',
+        url : "/plant/"+postParams.plant_id
+    })
+};
+
 export function Add_plant(){
     return service.request({
         method : 'POST',
@@ -85,6 +92,8 @@ export function Reset_userinfo(userParam){
         }
     });
 };
+
+
 export function Reset_userpwd(userParam){
     return service.request({
         method : "POST",
@@ -92,6 +101,43 @@ export function Reset_userpwd(userParam){
         data :{
             userID : userParam.userID,
             new_pwd : userParam.newuserpwd
+        }
+    });
+};
+
+export function Create_plantinfo(plantParam){
+    return service.request({
+        method : "POST",
+        url : "/createplant",
+        data :{
+            'pname' : plantParam.PlantName,
+            'pchar' : plantParam.Characters,
+            'pphy'  : plantParam.Phylum,
+            'pcla' : plantParam.Class,
+            'pord' : plantParam.Order,
+            'pfam' : plantParam.Family,
+            'pgen' : plantParam.Genus,
+            'pspe' : plantParam.Specices,
+            'ploc' : plantParam.Location,
+        }
+    });
+};
+
+export function Modify_plantinfo(plantParam){
+    return service.request({
+        method : "POST",
+        url : "/modify_plantinfo",
+        data :{
+            'pid' : plantParam.PlantID,
+            'pname' : plantParam.PlantName,
+            'pchar' : plantParam.Characters,
+            'pphy'  : plantParam.Phylum,
+            'pcla' : plantParam.Class,
+            'pord' : plantParam.Order,
+            'pfam' : plantParam.Family,
+            'pgen' : plantParam.Genus,
+            'pspe' : plantParam.Specices,
+            'ploc' : plantParam.Location,
         }
     });
 };

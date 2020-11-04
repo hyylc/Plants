@@ -410,37 +410,41 @@ def add_plant():
         return jsonify(resData)
 
 # 修改植物信息（所有植物信息）
-@app.route('/<int:plant_id>/modify_plantinfo',methods=['GET','POST'])
-def modify_plantinfo(plant_id):
+@app.route('/modify_plantinfo',methods=['GET','POST'])
+def modify_plantinfo():
     if request.method == 'POST':
-        print('捕获到post请求：植物',plant_id,' 修改信息')
+        #print('捕获到post请求：植物',plant_id,' 修改信息')
         #获取参数
         get_data = json.loads(request.get_data(as_text=True))
         param = {
+            'Pid' : get_data['pid'],
             'Pname' : get_data['pname'],
             'Pchar' : get_data['pchar'],
             'Pphy'  : get_data['pphy'],
-            'Pcla' : get_data['pphy'],
-            'Pord' : get_data['pphy'],
-            'Pfam' : get_data['pphy'],
-            'Pgen' : get_data['pphy'],
-            'Pspe' : get_data['pphy'],
+            'Pcla' : get_data['pcla'],
+            'Pord' : get_data['pord'],
+            'Pfam' : get_data['pfam'],
+            'Pgen' : get_data['pgen'],
+            'Pspe' : get_data['pspe'],
             'Ploc' : get_data['ploc']
         }
-        #不合法输入
-        for i in param:
-            if is_string_validate(param[i]):
-                resData = {
-                    "resCode": 1, # 非0即错误 1
-                    "data": [],# 数据位置，一般为数组
-                    "message": '参数错误'
-                }
-                return jsonify(resData)
+        # #不合法输入
+        # for i in param:
+        #     if is_string_validate(param[i]):
+        #         resData = {
+        #             "resCode": 1, # 非0即错误 1
+        #             "data": [],# 数据位置，一般为数组
+        #             "message": '参数错误'
+        #         }
+        #         return jsonify(resData)
         #初始化
-        p = Plant()    
-        data = p.delete_plant_by_plantID(plant_id)
+        p = Plant() 
+        print("Pid = ",param['Pid'][0])   
+        print("Pid = ",param['Pname'])  
+        data = p.delete_plant_by_plantID(param['Pid'][0])
+        print(data)
         if data == True:
-            data = p.add_plant_after_delete(plant_id,param)
+            data = p.add_plant_after_delete(param['Pid'][0],param)
             print('param = ',param)
             if data == False:
                 resData = {

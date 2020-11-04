@@ -2,14 +2,15 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/user_Home.vue";
 import login from "./views/login_in.vue";
-import Cate from "./views/Cate.vue";
 import user from "./views/user.vue";
 import Plant from "./views/Plant.vue";
-import CreateP from "./views/Create_plant.vue";
 import plantsearch from "./views/Search_plant.vue";
 import txj_sign from "./views/txj_Signin.vue";
 import Resetuinfo from "./views/Resetuserinfo.vue";
 import Resetpassword from "./views/Resetpassword.vue";
+import ModifyPlant from "./views/ModifyPlant.vue";
+import CreatePlant from "./views/CreatePlant.vue";
+import Cate from "./views/Cate.vue";
 
 Vue.use(Router);
 
@@ -32,6 +33,16 @@ export default new Router({
       path: "/Resetpassword",
       name: "Resetpassword",
       component: Resetpassword
+    },
+    {//修改植物信息页面
+      path: "/ModifyPlant/:plant_id",
+      name: "ModifyPlant",
+      component: ModifyPlant
+    },
+    {//发布植物信息页面
+      path: "/CreatePlant",
+      name: "CreatePlant",
+      component: CreatePlant
     },
     { //网站首页
       path: "/",
@@ -62,12 +73,12 @@ export default new Router({
       name: "Plant",
       component: Plant
     },
-    //增加植物页面
-    {
-      path: "/createplant",
-      name: "CreateP",
-      component: CreateP
-    },
+    // //增加植物页面
+    // {
+    //   path: "/createplant",
+    //   name: "CreateP",
+    //   component: CreateP
+    // },
     //植物分类显示页面
     {
       path: "/:cate_id",

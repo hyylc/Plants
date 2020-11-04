@@ -32,12 +32,12 @@ class Plant(object):
             return True
         except:
             self.conn.rollback()                   # Rollback in case there is any error
-        return False
+            return False
 
     # 添加一条植物信息
     def add_plant(self,item):
         # 当前id最大值
-        sql = "select MAX(plant.PlantID) from plant"
+        sql = "select MAX(PlantID) from plant"
         try:
             self.cursor.execute(sql)             # 执行单条sql语句
             self.conn.commit()                     # 提交到数据库执行
@@ -45,28 +45,28 @@ class Plant(object):
         except:
             self.conn.rollback()                   # Rollback in case there is any error
         id_count = self.cursor.fetchall()
-        
-        sql = "insert into plant values (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-        self.cursor.execute(sql,[id_count+1,item['Pname'],item['Pchar'],item['Pphy'],item['Pcla'],item['Pord'],item['Pfam'],item['Pgen'],item['Pspe'],item['Ploc']])
+        sql = "insert into plant values("+str(id_count[0]['MAX(PlantID)']+1)+",'"+item['Pname']+"','"+item['Pchar']+"','"+item['Pphy']+"','"+item['Pcla']+"','"+item['Pord']+"','"+item['Pfam']+"','"+item['Pgen']+"','"+item['Pspe']+"','"+item['Ploc']+"',now())"
+        print(sql)
         try:
             self.cursor.execute(sql)             # 执行单条sql语句
             self.conn.commit()                     # 提交到数据库执行
             return True
         except:
             self.conn.rollback()                   # Rollback in case there is any error
-        return False
+            return False
+
 
     # 删除后添加
     def add_plant_after_delete(self,plant_id,item):
-        sql = "insert into plant values (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-        self.cursor.execute(sql,[plant_id,item['Pname'],item['Pchar'],item['Pphy'],item['Pcla'],item['Pord'],item['Pfam'],item['Pgen'],item['Pspe'],item['Ploc']])
+        sql = "insert into plant values("+str(plant_id)+",'"+item['Pname']+"','"+item['Pchar']+"','"+item['Pphy']+"','"+item['Pcla']+"','"+item['Pord']+"','"+item['Pfam']+"','"+item['Pgen']+"','"+item['Pspe']+"','"+item['Ploc']+"',now())"
+        print(sql)
         try:
             self.cursor.execute(sql)             # 执行单条sql语句
             self.conn.commit()                     # 提交到数据库执行
             return True
         except:
             self.conn.rollback()                   # Rollback in case there is any error
-        return False
+            return False
 
 
     # 修改一条植物信息
@@ -89,7 +89,7 @@ class Plant(object):
             return True
         except:
             self.conn.rollback()                   # Rollback in case there is any error
-        return False
+            return False
 
 
     # 点击植物，获取某个植物的信息

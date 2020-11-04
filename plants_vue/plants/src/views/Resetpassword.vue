@@ -51,8 +51,8 @@ import { Reset_userpwd } from "../apis/read";
 				
 			});
 
-			const changepass = ()=>{// == false什么鬼，这里要修改，用stripscript判断有没有非法字符
-				if(user.userpwd == false || user.userpwd == ''||user.newuserpwd == false || user.newuserpwd == ''||user.renewuserpwd == false || user.renewuserpwd == ''
+			const changepass = ()=>{// == false????这里要修改，用stripscript判断有没有非法字符
+				if(stripscript(user.userpwd) == false || user.userpwd == ''||stripscript(user.newuserpwd) == false || user.newuserpwd == ''||stripscript(user.renewuserpwd) == false || user.renewuserpwd == ''
 				){
                		alert("输入信息有误，请确认后重新输入。")
 				}
@@ -65,7 +65,7 @@ import { Reset_userpwd } from "../apis/read";
 				else{
 					//发起请求获得结果
 					//这里的函数时并发运行的，不能写在一起。
-					//resp是接口最后的返回值，不能接口套接口，把get_userinfo写在前面了
+					//resp是接口最后的返回值，不能接口套接口，所以把get_userinfo写在前面了
 					Reset_userpwd(user).then(resp => {
 						console.log("In reset resp.data.data = ",resp.data.data)
 						if (resp.data.resCode == 0){
