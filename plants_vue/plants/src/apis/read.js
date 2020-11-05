@@ -2,6 +2,25 @@
 import service from "../utils/request.js"
 
 
+export function del_user(userinfo){
+    return service.request({
+        method : "post",
+        url : "/delete_user",//对应flask里的路由
+        data:{
+            user_id : userinfo
+        }
+    });
+};
+export function del_plant(plantinfo){
+    return service.request({
+        method : "post",
+        url : "/delete_plant",//对应flask里的路由
+        data:{
+            plant_id : plantinfo
+        }
+    });
+};
+
 export function do_login(userinfo){
     return service.request({
         method : "post",
@@ -12,7 +31,6 @@ export function do_login(userinfo){
         }
     });
 };
-
 
 export function do_register(userinfo){
     return service.request({
@@ -42,7 +60,24 @@ export function Get_userinfo(userParam){
     });
 };
 
-
+export function Get_alluser(){
+    return service.request({
+        method : "POST",
+        url : "/all_of_users"
+    })
+};
+export function Get_allplant(){
+    return service.request({
+        method : "POST",
+        url : "/all_of_plants"
+    })
+};
+export function Get_allcates(){
+    return service.request({
+        method : "POST",
+        url : "/allcates"
+    })
+};
 
 export function Get_cates(postParams){
     return service.request({
@@ -94,13 +129,37 @@ export function Reset_userinfo(userParam){
 };
 
 
-export function Reset_userpwd(userParam){
+export function Get_is_collected(collectParam){
     return service.request({
         method : "POST",
-        url : "/modify_pwd",
+        url : "/is_collected",
         data :{
-            userID : userParam.userID,
-            new_pwd : userParam.newuserpwd
+            user_id : collectParam.user_id,
+            plant_id : collectParam.plant_id
+        }
+    });
+};
+
+
+export function Add_a_collection(collectParam){
+    return service.request({
+        method : "POST",
+        url : "/addcollect",
+        data :{
+            user_id : collectParam.user_id,
+            plant_id : collectParam.plant_id
+        }
+    });
+};
+
+
+export function Del_a_collection(collectParam){
+    return service.request({
+        method : "POST",
+        url : "/delcollect",
+        data :{
+            user_id : collectParam.user_id,
+            plant_id : collectParam.plant_id
         }
     });
 };

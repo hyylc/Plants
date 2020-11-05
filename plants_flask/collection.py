@@ -19,15 +19,15 @@ class Collection(object):
         self.conn.close()
 
     # 增加记录前，判断收藏记录是否存在
-    def already_exist_collection(self,user_id,plant_id):
-        sql = "select * from collection where UserID = '"+user_id+"' AND PlantID = '"+plant_id+"'"
+    def is_collected(self,user_id,plant_id):
+        sql = "select * from collection where UserID = "+user_id+" AND PlantID = "+plant_id[0]
         try:
             self.cursor.execute(sql)             # 执行单条sql语句
             self.conn.commit()                     # 提交到数据库执行
         except:
             self.conn.rollback()                   # Rollback in case there is any error
-        id_count = self.cursor.fetchall()
-        if len(id_count) == 1:
+        data = self.cursor.fetchall()
+        if len(data) == 1:
             return True
         else:
             return False
@@ -35,7 +35,7 @@ class Collection(object):
 
     # 增加一条收藏记录
     def add_collection(self,user_id,plant_id):
-        flag = self.already_exist_collection(user_id,plant_id)
+        flag = self.is_collected(user_id,plant_id)
         # 如果已经收藏过，直接返回
         if flag == True:
             return True
@@ -49,16 +49,22 @@ class Collection(object):
             except:
                 self.conn.rollback()                   # Rollback in case there is any error
             id_count = self.cursor.fetchall()
+            print("收藏记录的id",id_count[0]['MAX(CollectionID)'])
+            
+            if id_count[0]['MAX(CollectionID)'] == None:
+                id_count = 1
+            else:
+                id_count = id_count[0]['MAX(CollectionID)']
             
             sql = "insert into collection values (%s,%s,%s,now())"
-            self.cursor.execute(sql,[id_count+1,user_id,plant_id])
+            
             try:
-                self.cursor.execute(sql)             # 执行单条sql语句
+                self.cursor.execute(sql,[str(id_count+1),user_id,plant_id])
                 self.conn.commit()                     # 提交到数据库执行
                 return True
             except:
                 self.conn.rollback()                   # Rollback in case there is any error
-            return False
+                return False
 
 
 
@@ -71,7 +77,7 @@ class Collection(object):
             return True
         except:
             self.conn.rollback()                   # Rollback in case there is any error
-        return False
+            return False
 
     # 查看收藏记录
     def collection_list(self,user_id):

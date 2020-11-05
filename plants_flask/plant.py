@@ -20,8 +20,6 @@ class Plant(object):
         self.cursor.close()
         self.conn.close()
     
-    
-
     # 删除植物
     def delete_plant_by_plantID(self,plantID):
         sql = "delete from plant where PlantID = "+str(plantID)
@@ -55,7 +53,6 @@ class Plant(object):
             self.conn.rollback()                   # Rollback in case there is any error
             return False
 
-
     # 删除后添加
     def add_plant_after_delete(self,plant_id,item):
         sql = "insert into plant values("+str(plant_id)+",'"+item['Pname']+"','"+item['Pchar']+"','"+item['Pphy']+"','"+item['Pcla']+"','"+item['Pord']+"','"+item['Pfam']+"','"+item['Pgen']+"','"+item['Pspe']+"','"+item['Ploc']+"',now())"
@@ -67,7 +64,6 @@ class Plant(object):
         except:
             self.conn.rollback()                   # Rollback in case there is any error
             return False
-
 
     # 修改一条植物信息
     def modify_plant(self,id,item):
@@ -91,7 +87,6 @@ class Plant(object):
             self.conn.rollback()                   # Rollback in case there is any error
             return False
 
-
     # 点击植物，获取某个植物的信息
     def get_plant_by_plantID(self,plantID):
         sql = "select * from plant where PlantID = "+str(plantID)
@@ -114,6 +109,15 @@ class Plant(object):
             resdata.append(temp)
         return resdata # 以数组形式返回
 
+    def get_all_plants(self):
+        sql = "select * from plant"
+        self.cursor.execute(sql)
+        resdata = []
+        for temp in self.cursor.fetchall(): # 所有结果
+            print(temp)
+            resdata.append(temp)
+        return resdata # 以数组形式返回
+        
     # 根据标签，返回30条植物信息
     def get_cates_plants_30(self, plant_cate):
         # 这里要判断，英文对应的中文标签，确定查询的cate是啥

@@ -7,9 +7,13 @@ import VueResource from "vue-resource";
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
-Vue.use(BootstrapVue)
-Vue.use(BootstrapVueIcons)
+
+Vue.use(ElementUI);
+Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 Vue.use(VueCompositionApi);
 Vue.use(VueResource);
 

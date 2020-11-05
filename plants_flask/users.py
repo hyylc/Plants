@@ -89,8 +89,17 @@ class User(object):
             data.append(temp)
         return data # 以数组形式返回
 
+    def get_all_users(self):
+        sql = "select * from ordinaryuser"
+        self.cursor.execute(sql)
+        resdata = []
+        for temp in self.cursor.fetchall(): # 所有结果
+            print(temp)
+            resdata.append(temp)
+        return resdata # 以数组形式返回
+
     def delete_user(self,user_id):
-        sql = "delete from ordinaryuser where UserID = '"+user_id+"'"
+        sql = "delete from ordinaryuser where UserID = "+str(user_id)
         print(sql)
         try:
             self.cursor.execute(sql)             # 执行单条sql语句

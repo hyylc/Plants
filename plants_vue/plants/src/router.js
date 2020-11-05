@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/user_Home.vue";
 import login from "./views/login_in.vue";
 import user from "./views/user.vue";
+import UserA from "./views/UserA.vue";
 import Plant from "./views/Plant.vue";
 import plantsearch from "./views/Search_plant.vue";
 import txj_sign from "./views/txj_Signin.vue";
@@ -10,6 +11,8 @@ import Resetuinfo from "./views/Resetuserinfo.vue";
 import Resetpassword from "./views/Resetpassword.vue";
 import ModifyPlant from "./views/ModifyPlant.vue";
 import CreatePlant from "./views/CreatePlant.vue";
+import Aindex from "./views/Aindex.vue";
+import Aplant from "./views/Aplant.vue";
 import Cate from "./views/Cate.vue";
 
 Vue.use(Router);
@@ -23,6 +26,16 @@ export default new Router({
       path: "/login",
       name: "login_in",
       component: login
+    },
+    { //管理员首页页面
+      path: "/Aindex",
+      name: "Aindex",
+      component: Aindex
+    },
+    { //管理员管理植物页面
+      path: "/Aplant",
+      name: "Aplant",
+      component: Aplant
     },
     {//修改昵称页面
       path: "/Resetuserinfo",
@@ -54,6 +67,12 @@ export default new Router({
       path: "/userinfo/:user_id",//是vue里面写的path
       name: "userinfo",
       component: user
+    }, 
+    //管理员看到的用户信息页面
+    {
+      path: "/userinfoA/:user_id",//是vue里面写的path
+      name: "userinfoA",
+      component: UserA
     },
     //植物搜索展示页面，匹配到之后就不会继续匹配了，所以要放在植物分类页面前面
     {

@@ -239,9 +239,11 @@ def modify_passwd():
 
 
 # 删除用户信息（管理员可以删除用户信息）
-@app.route('/<int:user_id>/delete_user',methods=['GET','POST'])
-def delete_user(user_id):
+@app.route('/delete_user',methods=['GET','POST'])
+def delete_user():
     if request.method == 'POST':
+        get_data = json.loads(request.get_data(as_text=True))
+        user_id = get_data['user_id']
         u = User()
         data = u.delete_user(user_id)
         if data == True:
@@ -475,15 +477,17 @@ def modify_plantinfo():
         return jsonify(resData)
 
 # 删除植物信息（管理员可以删除植物信息）
-@app.route('/<int:plant_id>/delete_plant',methods=['GET','POST'])
-def delete_plant(plant_id):
+@app.route('/delete_plant',methods=['GET','POST'])
+def delete_plant():
     if request.method == 'POST':
+        get_data = json.loads(request.get_data(as_text=True))
+        plant_id = get_data['plant_id']
         p = Plant()
         data = p.delete_plant_by_plantID(plant_id)
         if data == True:
             resData = {
                 "resCode" : 0,            
-                "data" : [],
+                "data" : data,
                 "message" : '已删除该植物'
             }
             # 这里要刷新管理员的管理页面
@@ -491,7 +495,7 @@ def delete_plant(plant_id):
         else:
             resData = {
                 "resCode" : 1,            
-                "data" : [],
+                "data" : data,
                 "message" : '删除失败'
             }
             return jsonify(resData)
@@ -514,20 +518,20 @@ def collect():
     if request.method == 'POST':
         #获取参数
         get_data = json.loads(request.get_data(as_text=True))
-        user_id = get_data['u_id']
-        plant_id = get_data['p_id']
+        user_id = get_data['user_id']
+        plant_id = get_data['plant_id']
         c = Collection()
         data = c.add_collection(user_id,plant_id)
         if data == False:
             resData = {
                 "resCode" : 0,            
-                "data" : [],
+                "data" : data,
                 "message" : '收藏失败'
             }
             return jsonify(resData)
         resData = {
             "resCode" : 0,            
-            "data" : [],
+            "data" : data,
             "message" : '已收藏该植物'
         }
         return jsonify(resData)
@@ -539,27 +543,26 @@ def collect():
         }
         return jsonify(resData)
 
-
 # 删除收藏（用户ID，植物ID）
-@app.route('/deletecollect',methods=['GET','POST'])
+@app.route('/delcollect',methods=['GET','POST'])
 def delete_collect():
     if request.method == 'POST':
         #获取参数
         get_data = json.loads(request.get_data(as_text=True))
-        user_id = get_data['u_id']
-        plant_id = get_data['p_id']
+        user_id = get_data['user_id']
+        plant_id = get_data['plant_id']
         c = Collection()
         data = c.delete_collection(user_id,plant_id)
         if data == False:
             resData = {
                 "resCode" : 0,            
-                "data" : [],
+                "data" : data,
                 "message" : '取消收藏失败'
             }
             return jsonify(resData)
         resData = {
             "resCode" : 0,            
-            "data" : [],
+            "data" : data,
             "message" : '已取消收藏'
         }
         # 这里要刷新收藏页面
@@ -573,16 +576,18 @@ def delete_collect():
         return jsonify(resData)
 
 # 用户查看自己的收藏（用户ID)
-@app.route('/<int:user_id>/collection_list',methods=['GET','POST'])
-def collectlist(user_id):
+@app.route('/collection_list',methods=['GET','POST'])
+def collectlist():
     if request.method == 'POST':
         #获取参数
+        get_data = json.loads(request.get_data(as_text=True))
+        user_id = get_data['user_id']
         c = Collection()
         data = c.collection_list(user_id)
         if len(data) == 0:
             resData = {
                 "resCode" : 0,            
-                "data" : [],
+                "data" : True,
                 "message" : '收藏为空'
             }
             return jsonify(resData)
@@ -595,11 +600,132 @@ def collectlist(user_id):
     else:
         resData = {
             "resCode" : 1,            
+            "data" : False,
+            "message" : '请求方式错误'
+        }
+        return jsonify(resData)
+
+# 查看是否已收藏该植物
+@app.route('/is_collected',methods=['GET','POST'])
+def is_collect():
+    if request.method == 'POST':
+        #获取参数
+        get_data = json.loads(request.get_data(as_text=True))
+        user_id = get_data['user_id']
+        plant_id = get_data['plant_id']
+        c = Collection()
+        data = c.is_collected(user_id,plant_id)
+        if data == False:
+            resData = {
+                "resCode" : 0,            
+                "data" : data,
+                "message" : '未收藏该植物'
+            }
+            return jsonify(resData)
+        resData = {
+            "resCode" : 0,            
+            "data" : data,
+            "message" : '已收藏该植物'
+        }
+        return jsonify(resData)
+    else:
+        resData = {
+            "resCode" : 1,            
             "data" : [],
             "message" : '请求方式错误'
         }
         return jsonify(resData)
 
+#########其他接口函数#########
+
+# 返回所有用户
+@app.route('/all_of_users',methods=['POST','GET'])
+def alluser():
+    if request.method == 'POST':
+        u = User()
+        data = u.get_all_users()
+        if len(data) == 0:
+            resData = {
+                "resCode" : 0,
+                "data" : '',
+                "message" : '用户数量为空'
+            }
+            return jsonify(resData)
+        resData = {
+            "resCode" : 0,
+            "data" : data,
+            "message" : '返回所有用户信息'
+        }
+        return jsonify(resData)
+    else:
+        resData = {
+            "resCode" : 1,            
+            "data" : [],
+            "message" : '请求方式错误'
+        }
+        return jsonify(resData)
+
+# 返回所有植物
+@app.route('/all_of_plants',methods=['POST','GET'])
+def allplant():
+    if request.method == 'POST':
+        p = Plant()
+        data = p.get_all_plants()
+        if len(data) == 0:
+            resData = {
+                "resCode" : 0,
+                "data" : '',
+                "message" : '植物数量为空'
+            }
+            return jsonify(resData)
+        resData = {
+            "resCode" : 0,
+            "data" : data,
+            "message" : '返回所有植物信息'
+        }
+        return jsonify(resData)
+    else:
+        resData = {
+            "resCode" : 1,            
+            "data" : [],
+            "message" : '请求方式错误'
+        }
+        return jsonify(resData)
+
+# 返回所有标签
+@app.route('/allcates',methods=['POST','GET'])
+def get_allcates():
+    phy = []
+    cla = []
+    order = []
+    fam = []
+    gen = []
+    spe = []
+    for line in open('cate_phy.txt',encoding='utf-8'):
+        phy = line
+    for line in open('cate_cla.txt',encoding='utf-8'):
+        cla = line
+    for line in open('cate_order.txt',encoding='utf-8'):
+        order = line
+    for line in open('cate_fam.txt',encoding='utf-8'):
+        fam = line
+    for line in open('cate_gen.txt',encoding='utf-8'):
+        gen = line
+    for line in open('cate_spe.txt',encoding='utf-8'):
+        spe = line
+    resData = {
+        "resCode" : 0,            
+        "data" : {
+            'phy':phy,
+            'cla':cla,
+            'order':order,
+            'fam':fam,
+            'gen':gen,
+            'spe':spe
+        },
+        "message" : '返回所有标签'
+    }
+    return jsonify(resData)
 
 if __name__ == '__main__': # 如果是直接执行文件，那么就执行下面的代码
     app.run(host = '127.0.0.1', port = 1943, debug = True)
