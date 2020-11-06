@@ -23,7 +23,7 @@
 			
 		</div>
 		
-      <Footer />
+      <!-- <Footer /> -->
 	</div>
 </template>
 
@@ -48,7 +48,10 @@ import { Get_one_plant1 , Modify_plantinfo} from "../apis/read"
         const plantParam = reactive({
             plant_id : '',//用于传递请求的链接，这里是植物的id(/plant/<int:plant_id>)
 		});
-		
+		//接收修改结果
+		const get_data = reactive({
+			flag:''
+		});
 		plantParam.plant_id = now_url.value.match(/\d+/g);
 		console.log("url = ",plantParam.plant_id)
 
@@ -79,19 +82,21 @@ import { Get_one_plant1 , Modify_plantinfo} from "../apis/read"
 			plantinfo.Genus = resp.data.data[0].Genus;
 			plantinfo.Specices = resp.data.data[0].Specices;
 			plantinfo.Location = resp.data.data[0].Location;
-			console.log("after get plantname = ",plantinfo.PlantName)
+			//console.log("after get plantname = ",plantinfo.PlantName)
         });
 
         const Oncollect = ()=>{
-			console.log("待完成的代码");
-			console.log("now Genus = ",plantinfo.Genus)
-			console.log("now Specices = ",plantinfo.Specices)
-			console.log("now Location = ",plantinfo.Location)
-			console.log("now Family = ",plantinfo.Family)
 			Modify_plantinfo(plantinfo).then(resp => {
 				console.log("resp = ",resp);
+				get_data.flag = resp.data.data
+				//console.log("resp.data.data = ",resp.data.data)
+				if(get_data.flag == true){
+				alert("修改植物信息成功。")
+				}
+				else{
+					alert("修改植物信息失败。")
+				}
 			});
-
         };
 
         onMounted(()=>{

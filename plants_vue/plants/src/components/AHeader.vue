@@ -1,11 +1,13 @@
 <template>
     <b-container>
+        <div class="background">
+        <img :src="imgsrc" width="100%" height="100%" alt=""/>
+         </div>
         <b-navbar toggleable="lg" type="dark" variant="info">
             <b-navbar-brand href="#">植物信息检索</b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav >
-                    管理员头部
                     <b-nav-item v-for = "item in headData.headers" :key="item.id" :href="item.url" :class="item.url == now_url ? 'active' : ''">{{item.name}}</b-nav-item>
             </b-navbar-nav>
             </b-collapse>
@@ -14,7 +16,6 @@
 </template>
 
 <script>
-import { Get_header } from "../apis/read.js";//从apis中引入，通过这个请求拿到数据
 import { reactive, ref ,onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
 import { stripscript } from "../apis/validate.js"
 
@@ -45,12 +46,20 @@ export default {
         return {
             headData,
             now_url,
-            User
+            User,
+            imgsrc: require('../assets/backpic.jpg')
         }
     }
 }
 </script>
 
 <style lang='scss' scoped>//lang告诉解释其css符合什么编译器的语法；scoped：当前vue文件生效，没有scoped则全局生效
-
+.background{
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  position: absolute;
+}
 </style>

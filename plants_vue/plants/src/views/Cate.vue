@@ -2,10 +2,10 @@
   <div id="Cate">
       <Header />
       <b-container>
-          <div v-if="headData.headers.length == 0">
-              您要查询的分类页面不存在
+          <div v-if="headData.headers == 0">
+              该分类下暂时没有植物被收录。
           </div>
-        <div style="height:2000px;background-color:pink">
+        <div style="height:2000px;background-color:white;opacity:0.8">
             //这里要获取不同分类并显示，还得附上url
             //可以从现有的url获取植物信息
             
@@ -28,11 +28,11 @@
                             </tbody><!---->
                         </table>    
                 </b-col>
-        </b-row>
+              </b-row>
         </div>
 
       </b-container>
-      <Footer />
+      <!-- <Footer /> -->
   </div>
 </template>
 

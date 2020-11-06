@@ -34,7 +34,7 @@
 				</div>
 			</div>
 		</div>
-		<Footer />
+		<!-- <Footer /> -->
 	</div>
 </template>
 
@@ -112,9 +112,16 @@ export default{
 							console.log("UserID = ",resp.data.data.UserID)
 							//UserID保持到窗口关闭
 							window.sessionStorage.setItem('UserID',resp.data.data.UserID)
-							context.root.$router.push({
-								path:'/',
-							});
+							if(resp.data.data.UserType == 'u'){
+								context.root.$router.push({
+									path:'/',
+								});
+							}
+							else{
+								context.root.$router.push({
+									path:'/Aindex',
+								});
+							}
 							
 						}
 						else{

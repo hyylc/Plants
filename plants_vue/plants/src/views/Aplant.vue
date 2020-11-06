@@ -33,7 +33,6 @@
 			</el-pagination>
 		</div>
 		</div>
-      <Footer />
     </div>
 
 </template>

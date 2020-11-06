@@ -1,18 +1,22 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/user_Home.vue";
-import login from "./views/login_in.vue";
 import user from "./views/user.vue";
 import UserA from "./views/UserA.vue";
 import Plant from "./views/Plant.vue";
 import plantsearch from "./views/Search_plant.vue";
-import txj_sign from "./views/txj_Signin.vue";
+import Sign from "./views/txj_Signin.vue";
 import Resetuinfo from "./views/Resetuserinfo.vue";
 import Resetpassword from "./views/Resetpassword.vue";
 import ModifyPlant from "./views/ModifyPlant.vue";
 import CreatePlant from "./views/CreatePlant.vue";
 import Aindex from "./views/Aindex.vue";
 import Aplant from "./views/Aplant.vue";
+import collection from "./views/Collection.vue";
+import Order from "./views/Order.vue";
+import Family from "./views/Family.vue";
+import Genus from "./views/Genus.vue";
+import Specices from "./views/Specices.vue";
 import Cate from "./views/Cate.vue";
 
 Vue.use(Router);
@@ -22,10 +26,11 @@ export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
-    { //登录页面
-      path: "/login",
-      name: "login_in",
-      component: login
+    //登录页面
+    {
+      path: "/Signin",
+      name: "sign",
+      component: Sign
     },
     { //管理员首页页面
       path: "/Aindex",
@@ -64,9 +69,15 @@ export default new Router({
     },
     //用户信息页面
     {
-      path: "/userinfo/:user_id",//是vue里面写的path
+      path: "/userinfo",//是vue里面写的path
       name: "userinfo",
       component: user
+    }, 
+    //用户收藏页面
+    {
+      path: "/collection/:user_id",//是vue里面写的path
+      name: "collection",
+      component: collection
     }, 
     //管理员看到的用户信息页面
     {
@@ -80,24 +91,36 @@ export default new Router({
       name: "plantsearch",
       component: plantsearch
     },
-    //txj的登录页面
-    {
-      path: "/txj_signin",
-      name: "txj_sign",
-      component: txj_sign
-    },
     //植物信息展示页面
     {
       path: "/plant/:plant_id",
       name: "Plant",
       component: Plant
     },
-    // //增加植物页面
-    // {
-    //   path: "/createplant",
-    //   name: "CreateP",
-    //   component: CreateP
-    // },
+     //目类显示页面
+     {
+      path: "/Order",
+      name: "Order",
+      component: Order
+    },
+     //科类显示页面
+    {
+      path: "/Family",
+      name: "Family",
+      component: Family
+    },
+     //属类显示页面
+    {
+      path: "/Genus",
+      name: "Genus",
+      component: Genus
+    }, 
+    //种类显示页面
+    {
+      path: "/Specices",
+      name: "Specices",
+      component: Specices
+    },
     //植物分类显示页面
     {
       path: "/:cate_id",

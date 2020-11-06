@@ -81,7 +81,7 @@ class Collection(object):
 
     # 查看收藏记录
     def collection_list(self,user_id):
-        sql = "select * from collection where UserID = %s"
+        sql = "select * from collection,plant where UserID = %s AND collection.PlantID = plant.PlantID"
         try:
             self.cursor.execute(sql,[user_id])             # 执行单条sql语句
             self.conn.commit()                     # 提交到数据库执行

@@ -44,13 +44,17 @@ class User(object):
 
     #登录处理
     def user_sign_in(self,u_name,u_pwd):
-        # 3.sql语句
+        # 查找普通用户
         sql = "select * from ordinaryuser where UserName = %s and UserPassword = %s"
         self.cursor.execute(sql,[u_name,u_pwd])
         # 4.处理结果，查询单条数据，无需提交
         rs = self.cursor.fetchone()
+        if rs == None:
+            sql = "select * from administrator where UserName = %s and UserPassword = %s"
+            self.cursor.execute(sql,[u_name,u_pwd])
+            # 4.处理结果，查询单条数据，无需提交
+            rs = self.cursor.fetchone()
         print(rs)
-
         # 用户名和密码不正确
         return rs
 

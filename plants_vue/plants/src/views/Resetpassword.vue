@@ -10,7 +10,7 @@
 					</div>
 					<button class="bbutton" @click="changepass">修改密码</button>
 		</div>
-		<Footer />
+		<!-- <Footer /> -->
 	</div>
 </template>
 

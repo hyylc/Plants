@@ -1,23 +1,14 @@
 <template>
 	<div class="big">	
       <Header />
-	  
+        <!-- <span v-for="item in data">{{item['zh']}}</span> -->
 		<div class="contain">
-        <el-row>
-            <el-col :span="21">
-               <el-input v-model="searchData" @input="search"  placeholder="输入植物名搜索"></el-input>
-            </el-col>
-            <el-col :span="3">
-                <el-button type="success" @click="search">搜索</el-button>
-            </el-col>
-        </el-row>
-        <el-table :data="data" border>
-            <el-table-column label="植物名">
-	   	    <template slot-scope="scope">
-			<!-- <el-button type="text"  herf='/plant/'+scope.row.PlantID >{{scope.row.PlantName}}</el-button>  -->
-			<el-button type="text" @click="checkDetail(scope.row.PlantID)">{{scope.row.PlantName}}</el-button>
-			
-	        </template>
+        <el-table :data="this.data" border>
+            <el-table-column label="种名">
+                <template slot-scope="scope">
+                    <el-button type="text" @click="checkDetail(scope.row.en)">{{scope.row.zh}}</el-button>
+                </template>
+
 			</el-table-column>
         </el-table>
         <div style="text-align: center;">
@@ -26,9 +17,9 @@
 			    layout="total, sizes, prev, pager, next, jumper" :total="total">
 			</el-pagination>
 		</div>
-		</div>
+	</div>
       <!-- <Footer /> -->
-    </div>
+      </div>
 </template>
 
 
@@ -36,7 +27,7 @@
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Get_collection } from "../apis/read.js"
+import { Get_specices } from "../apis/read.js"
 
 export default {
 	name : "userinfo",
@@ -50,16 +41,17 @@ export default {
 				list: [], // 显示的数据
 				limit: 10, // 条数，每一页显示的数量
 				total: 20, // 所有的数量
-				page: 1, //当前页
+                page: 1, //当前页
+                data: [],
+                ac_data:[],
 				searchData: '', // 搜索内容
-				data:[],//接口返回的所有用户信息
+				// data:[],//接口返回的所有用户信息
 				user_id:''
 			}
 		},
 		created() {
 			this.pageList();
-			this.user_id = window.sessionStorage.UserID;
-			this.post_allcollection();
+			this.post_labels();
 			
 		},
 		methods: {
@@ -67,16 +59,16 @@ export default {
 				this.getList()
 			},
 			
-			post_allcollection() {
-				Get_collection(this.user_id).then(resp => {
-					this.data = resp.data.data
-					console.log('输出结果 = ',this.data)
+			post_labels() {
+				Get_specices().then(resp => {
+                    this.data = resp.data.data;
+                    console.log('输出结果 = ',this.data)
 				})
 			},
-			checkDetail(plant_id){
+			checkDetail(Order_en){
 				this.$router.push({
-                            path:'/plant/'+plant_id,
-                        });
+                    path:"/"+Order_en,
+                });
 			},
 			// 处理数据
 			getList() {
@@ -89,15 +81,6 @@ export default {
 					index < this.page * this.limit && index >= this.limit * (this.page - 1)
 				) //根据页数显示相应的内容
 				this.total = list.length
-
-				/////////
-				// var list = this.alluser
-				// console.log(list)
-				// this.list = list.filter((item, index) =>
-				// 	index < this.page * this.limit && index >= this.limit * (this.page - 1)
-				// ) //根据页数显示相应的内容
-				// this.total = list.length
-				////////
 			},
 			// 当每页数量改变
 			handleSizeChange(val) {

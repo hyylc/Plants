@@ -2,7 +2,7 @@
 	<div class="big">	
       <Header />
 	  
-		<div class="contain">
+		<div class="contain" >
         <el-row>
             <el-col :span="21">
                <el-input v-model="searchData" @input="search"  placeholder="输入姓名搜索"></el-input>
@@ -33,7 +33,7 @@
 			</el-pagination>
 		</div>
 		</div>
-      <Footer />
+      <!-- <Footer /> -->
     </div>
 
 </template>

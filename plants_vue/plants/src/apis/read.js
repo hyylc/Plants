@@ -11,6 +11,7 @@ export function del_user(userinfo){
         }
     });
 };
+
 export function del_plant(plantinfo){
     return service.request({
         method : "post",
@@ -50,6 +51,33 @@ export function Get_header(){
     });
 };
 
+export function Get_order(){
+    return service.request({
+        method : "POST",
+        url : "/order"//对应flask里的路由
+    });
+};
+
+export function Get_family(){
+    return service.request({
+        method : "POST",
+        url : "/family"//对应flask里的路由
+    });
+};
+
+export function Get_genus(){
+    return service.request({
+        method : "POST",
+        url : "/genus"//对应flask里的路由
+    });
+};
+
+export function Get_specices(){
+    return service.request({
+        method : "POST",
+        url : "/specices"//对应flask里的路由
+    });
+};
 export function Get_userinfo(userParam){
     return service.request({
         method : "POST",
@@ -66,16 +94,28 @@ export function Get_alluser(){
         url : "/all_of_users"
     })
 };
+
 export function Get_allplant(){
     return service.request({
         method : "POST",
         url : "/all_of_plants"
     })
 };
+
 export function Get_allcates(){
     return service.request({
         method : "POST",
         url : "/allcates"
+    })
+};
+
+export function Get_collection(userid){
+    return service.request({
+        method : "POST",
+        url : "/collection_list",
+        data:{
+            'user_id': userid
+        }
     })
 };
 

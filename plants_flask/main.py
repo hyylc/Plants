@@ -306,12 +306,21 @@ def get_cate_infos(plant_cate):
         # 捕获到post请求：从而确定查询什么数据，在这里要完成查询并返回数据
         p = Plant()
         data = p.get_cates_plants_30(plant_cate)
-        resData = {
-            "resCode" : 0,            
-            "data" : data,
-            "message" : '得到植物信息'
-        }
-        return jsonify(resData)
+        print(data)
+        if len(data) == 0:
+            resData = {
+                "resCode" : 0,            
+                "data" : 0,
+                "message" : '暂时没有植物信息被收录。'
+            }
+            return jsonify(resData)
+        else:
+            resData = {
+                "resCode" : 0,            
+                "data" : data,
+                "message" : '得到以下植物信息。'
+            }
+            return jsonify(resData)
     else:
         resData = {
             "resCode" : 1,            
@@ -451,20 +460,20 @@ def modify_plantinfo():
             if data == False:
                 resData = {
                     "resCode" : 0,            
-                    "data" : [],
+                    "data" : False,
                     "message" : '修改植物信息失败'
                 }
                 return jsonify(resData)
             resData = {
                 "resCode" : 0,            
-                "data" : [],
+                "data" : True,
                 "message" : '已修改该植物信息'
             }
             return jsonify(resData)
         else:
             resData = {
                 "resCode" : 0,            
-                "data" : [],
+                "data" : False,
                 "message" : '修改植物信息失败'
             }
             return jsonify(resData)
@@ -582,21 +591,30 @@ def collectlist():
         #获取参数
         get_data = json.loads(request.get_data(as_text=True))
         user_id = get_data['user_id']
+        print(user_id)
         c = Collection()
         data = c.collection_list(user_id)
-        if len(data) == 0:
+        if data == False:
             resData = {
-                "resCode" : 0,            
-                "data" : True,
-                "message" : '收藏为空'
+                "resCode" : 1,            
+                "data" : False,
+                "message" : '查询失败'
             }
             return jsonify(resData)
-        resData = {
-            "resCode" : 0,            
-            "data" : data,
-            "message" : '得到收藏列表'
-        }
-        return jsonify(resData)
+        else:
+            if len(data) == 0:
+                resData = {
+                    "resCode" : 0,            
+                    "data" : [],
+                    "message" : '收藏为空'
+                }
+                return jsonify(resData)
+            resData = {
+                "resCode" : 0,            
+                "data" : data,
+                "message" : '得到收藏列表'
+            }
+            return jsonify(resData)
     else:
         resData = {
             "resCode" : 1,            
@@ -726,6 +744,119 @@ def get_allcates():
         "message" : '返回所有标签'
     }
     return jsonify(resData)
+
+
+# 返回目标签
+@app.route('/order',methods=['POST','GET'])
+def get_order():
+    order = []
+    for line in open('cate_order.txt',encoding='utf-8'):
+        order = line
+
+    data = []
+    order = order[1:-1]
+    order = order.split(", ")
+    for i in order:
+        i = i[1:-1]
+        i = i.split(" ")
+        ele = {
+            'zh' : i[0],
+            'en' : i[-1]
+        }
+        data.append(ele)
+        #print(data)
+
+    resData = {
+        "resCode" : 0,            
+        "data" : data,
+        "message" : '返回所有标签'
+    }
+    return jsonify(resData)
+
+# 返回科标签
+@app.route('/family',methods=['POST','GET'])
+def get_family():
+    fam = []
+    for line in open('cate_fam.txt',encoding='utf-8'):
+        fam = line
+    # 转换返回格式
+    data = []
+    fam = fam[1:-1]
+    fam = fam.split(", ")
+    for i in fam:
+        i = i[1:-1]
+        i = i.split(" ")
+        ele = {
+            'zh' : i[0],
+            'en' : i[-1]
+        }
+        data.append(ele)
+        #print(data)
+
+    resData = {
+        "resCode" : 0,            
+        "data" : data,
+        "message" : '返回所有标签'
+    }
+    return jsonify(resData)
+
+
+# 返回属标签
+@app.route('/genus',methods=['POST','GET'])
+def get_genus():
+    gen = []
+    for line in open('cate_gen.txt',encoding='utf-8'):
+        gen = line
+
+    # 转换返回格式
+    data = []
+    gen = gen[1:-1]
+    gen = gen.split(", ")
+    for i in gen:
+        i = i[1:-1]
+        i = i.split(" ")
+        ele = {
+            'zh' : i[0],
+            'en' : i[-1]
+        }
+        data.append(ele)
+
+    resData = {
+        "resCode" : 0,            
+        "data" : data,
+        "message" : '返回所有标签'
+    }
+    return jsonify(resData)
+
+
+# 返回种、族、组标签
+@app.route('/specices',methods=['POST','GET'])
+def get_specices():
+    spe = []
+    for line in open('cate_spe.txt',encoding='utf-8'):
+        spe = line
+
+    # 转换返回格式
+    data = []
+    spe = spe[1:-1]
+    spe = spe.split(", ")
+    for i in spe:
+        i = i[1:-1]
+        i = i.split(" ")
+        ele = {
+            'zh' : i[0],
+            'en' : i[-1]
+        }
+        data.append(ele)
+
+
+    resData = {
+        "resCode" : 0,            
+        "data" : data,
+        "message" : '返回所有标签'
+    }
+    return jsonify(resData)
+
 
 if __name__ == '__main__': # 如果是直接执行文件，那么就执行下面的代码
     app.run(host = '127.0.0.1', port = 1943, debug = True)

@@ -1,16 +1,19 @@
 <template>
     <b-container>
+        <div class="background">
+        <img :src="imgsrc" width="100%" height="100%" alt=""/>
+         </div>
         <b-navbar toggleable="lg" type="dark" variant="info">
             <b-navbar-brand href="#">植物信息检索</b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav v-if="User.UserID !== undefined">
-                    这里要修改，获取全局变量，登陆后，将用户的ID作为url的一部分
                     <b-nav-item v-for = "item in headData.headers" :key="item.id" :href="item.url" :class="item.url == now_url ? 'active' : ''">{{item.name}}</b-nav-item>
-                    <a>{{User.UserID}}</a>
+                    <!-- <a>{{User.UserID}}</a> -->
             </b-navbar-nav>
             <b-navbar-nav v-else>
-                注册/登录
+                <!-- <a :href="txj_Signin">注册/登录</a> -->
+                <b-nav-item v-for = "item in headData.header" :key="item.id" :href="item.url" :class="item.url == now_url ? 'active' : ''">{{item.name}}</b-nav-item>
             </b-navbar-nav>
             <ul  class="navbar-nav ml-auto">
                 <li class="form-inline">
@@ -36,7 +39,8 @@ export default {
         const now_url = ref(context.root.$route.path);
         
         const headData = reactive({
-            headers:[]
+            headers:[],
+            header:[]
         });
 
         const User  = reactive({
@@ -58,7 +62,12 @@ export default {
       
         headData.headers = [
             {'id':0,'name':'首页','url':'/'},
-            {'id':1,'name':'个人中心','url':'/userinfo/'+User.UserID}
+            {'id':1,'name':'个人中心','url':'/userinfo/'},
+            {'id':2,'name':'我的收藏','url':'/collection/'+User.UserID},
+            {'id':3,'name':'登录/注册','url':'/txj_Signin'},
+        ]
+        headData.header = [
+            {'id':0,'name':'登录/注册','url':'/txj_Signin'},
         ]
         //console.log("headData.headers = ",headData.headers)
 
@@ -85,12 +94,20 @@ export default {
             now_url,
             search,
             Onsearch,
-            User
+            User,
+            imgsrc: require('../assets/backpic.jpg')
         }
     }
 }
 </script>
 
 <style lang='scss' scoped>//lang告诉解释其css符合什么编译器的语法；scoped：当前vue文件生效，没有scoped则全局生效
-
+.background{
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  position: absolute;
+}
 </style>

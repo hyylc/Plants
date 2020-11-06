@@ -9,7 +9,7 @@
 					</div>
 					<button class="bbutton" type="submit" @click="OnReset">保存设置</button>
 		</div>
-		<Footer />
+		<!-- <Footer /> -->
 	</div>
 </template>
 

@@ -2,7 +2,7 @@
   <div id="search_plant">
       <Header />
       <b-container class="mt">
-        <div style="height:2000px;background-color:pink">
+        <div style="height:2000px;background-color:white;opacity:0.8">
             <b-row><b-col><h4>查询结果</h4></b-col></b-row>
             <b-row>
                 <b-col v-if="headData.headers.length > 0"   cols="12" md="12">    
@@ -30,7 +30,7 @@
         </div>
 
       </b-container>
-      <Footer />
+      <!-- <Footer /> -->
   </div>
 </template>
 

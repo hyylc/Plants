@@ -10,7 +10,7 @@
         </div>
 
       </b-container>
-      <Footer />
+      <!-- <Footer /> -->
   </div>
 </template>
 

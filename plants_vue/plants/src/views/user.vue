@@ -17,7 +17,7 @@
                <button class="bbutton" @click="changepass">修改密码</button>						
 		  </div>
       </b-container>
-      <Footer />
+      <!-- <Footer /> -->
   </div>
 </template>
 

@@ -89,7 +89,7 @@ class Plant(object):
 
     # 点击植物，获取某个植物的信息
     def get_plant_by_plantID(self,plantID):
-        sql = "select * from plant where PlantID = "+str(plantID)
+        sql = "select * from plant where plant.PlantID = "+str(plantID)
         print("sql = ",sql)
         self.cursor.execute(sql)
         resdata = []
@@ -146,7 +146,7 @@ class Plant(object):
         else:
             pass
         print("cate = ",cate)
-        sql = "select PlantID,PlantName,Characters,Location from plant where "+cate+" like '%"+select_cate+"%' limit 30"
+        sql = "select PlantID,PlantName,Characters,Location from plant where plant."+cate+" like '%"+select_cate+"%' limit 30"
         print("sql = ",sql)
         self.cursor.execute(sql)
         resdata = []
