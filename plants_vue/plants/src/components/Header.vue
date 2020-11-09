@@ -7,7 +7,7 @@
             <b-navbar-brand href="#">植物信息检索</b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
-            <b-navbar-nav v-if="User.UserID !== undefined">
+            <b-navbar-nav v-if="User.UserID !== ''">
                     <b-nav-item v-for = "item in headData.headers" :key="item.id" :href="item.url" :class="item.url == now_url ? 'active' : ''">{{item.name}}</b-nav-item>
                     <!-- <a>{{User.UserID}}</a> -->
             </b-navbar-nav>
@@ -58,16 +58,16 @@ export default {
         
         //获取已登录的用户信息
         User.UserID = window.sessionStorage.UserID
-        //console.log("userID get from window.sessionStorage = ",User.UserID)
+        console.log("userID get from window.sessionStorage = ",User.UserID)
       
         headData.headers = [
             {'id':0,'name':'首页','url':'/'},
             {'id':1,'name':'个人中心','url':'/userinfo/'},
             {'id':2,'name':'我的收藏','url':'/collection/'+User.UserID},
-            {'id':3,'name':'登录/注册','url':'/txj_Signin'},
+            {'id':3,'name':'登录/注册','url':'/Signin'},
         ]
         headData.header = [
-            {'id':0,'name':'登录/注册','url':'/txj_Signin'},
+            {'id':0,'name':'登录/注册','url':'/Signin'},
         ]
         //console.log("headData.headers = ",headData.headers)
 

@@ -6,17 +6,18 @@
 				<div class="big-contain" v-if="isLogin.flag === true">
 					<div class="btitle">账户登录</div>
 					<div class="bform">
-						<input v-model="user.username" type="text" placeholder="用户名" >
-						<input v-model="user.password" type="text" placeholder="密码" >
+						<!-- autocomplete=false -->
+						<input v-model="user.username" type="text"  placeholder="用户名" >
+						<input v-model="user.password" type="password"  placeholder="密码" >
 					</div>
 					<button class="bbutton" @click="Onlogin" type="submit" >登录</button>
 				</div>
 				<div class="big-contain" v-else>
 					<div class="btitle">创建账户</div>
 					<div class="bform">
-						<input v-model="user1.username" type="text" placeholder="用户名" >
-						<input v-model="user1.password" type="text" placeholder="密码" >
-						<input v-model="user1.password2" type="text" placeholder="再次密码" >
+						<input v-model="user1.username" type="text"  placeholder="用户名" >
+						<input v-model="user1.password" type="password"  placeholder="密码" >
+						<input v-model="user1.password2" type="password"  placeholder="再次密码" >
 					</div>
 					<button class="bbutton" @click="register">注册</button>
 				</div>
@@ -54,14 +55,15 @@ export default{
 		},
 
 		setup(props, context){
-			onMounted(()=>{
-				console.log("In onMounted username = ",user.username);
-				console.log("In onMounted password = ",user.password);
-				console.log("In onMounted password = ",user.password2);
-				alert(user.username);
-				alert(user.password);
-				alert(user.password2)
-			});
+			window.sessionStorage.setItem('UserID','')
+			// onMounted(()=>{
+			// 	console.log("In onMounted username = ",user.username);
+			// 	console.log("In onMounted password = ",user.password);
+			// 	console.log("In onMounted password = ",user.password2);
+			// 	alert(user.username);
+			// 	alert(user.password);
+			// 	alert(user.password2)
+			// });
 			//数据绑定
 			const user = reactive({
 				username:'',
@@ -83,7 +85,7 @@ export default{
 				isLogin.flag = !isLogin.flag
 				user1.username = ''
 				user1.password = ''
-				user2.password2 = ''
+				user1.password2 = ''
 				user.username = ''
 				user.password = ''
 			};
