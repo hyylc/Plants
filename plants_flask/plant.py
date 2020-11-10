@@ -146,7 +146,7 @@ class Plant(object):
         else:
             pass
         print("cate = ",cate)
-        sql = "select PlantID,PlantName,Characters,Location from plant where plant."+cate+" like '%"+select_cate+"%' limit 30"
+        sql = "select PlantID,PlantName,Characters,Location from plant where plant."+cate+" like '%"+select_cate+"%'"
         print("sql = ",sql)
         self.cursor.execute(sql)
         resdata = []

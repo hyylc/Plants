@@ -46,6 +46,7 @@ import { stripscript } from "../apis/validate.js"
 import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
 import { do_login } from "../apis/read"
 import { do_register } from "../apis/read"
+import login_inVue from './login_in.vue';
 
 export default{
 		name:'login-register',
@@ -56,14 +57,6 @@ export default{
 
 		setup(props, context){
 			window.sessionStorage.setItem('UserID','')
-			// onMounted(()=>{
-			// 	console.log("In onMounted username = ",user.username);
-			// 	console.log("In onMounted password = ",user.password);
-			// 	console.log("In onMounted password = ",user.password2);
-			// 	alert(user.username);
-			// 	alert(user.password);
-			// 	alert(user.password2)
-			// });
 			//数据绑定
 			const user = reactive({
 				username:'',
@@ -90,9 +83,9 @@ export default{
 				user.password = ''
 			};
 
-			// function changeType(){
-			// 	isLogin.flag = !isLogin.flag
-			// }
+			const login_su = reactive({
+				flag:false
+			});
 
 			const Onlogin = ()=>{
 				console.log("In Onlogin username = ",user.username);
@@ -105,12 +98,11 @@ export default{
 					//发起请求获得结果
 					do_login(user).then(resp => {
 						console.log("In login resp = ",resp);
-						console.log("In login resp.data.data = ",resp.data.data)
+						console.log("In login resp.data.data = ",resp.data.data);
 						if (resp.data.resCode == 0){
 							///登录成功,保存session,跳转到用户首页
 							alert('登录成功！');
-
-
+							login_su.flag = true;
 							console.log("UserID = ",resp.data.data.UserID)
 							//UserID保持到窗口关闭
 							window.sessionStorage.setItem('UserID',resp.data.data.UserID)
@@ -123,13 +115,13 @@ export default{
 								context.root.$router.push({
 									path:'/Aindex',
 								});
-							}
-							
+							}	
 						}
 						else{
 							//停留在当前页面
-							alert('用户名或密码错误，请重新输入');
+							alert('用户名或密码错误，请重新输入。');
 						}
+						
 					});
 				}
 			};

@@ -1,7 +1,7 @@
 <template>
   <div id="Plant">
       <Header />
-<div class="contain">
+<div class="contain" align="center">
 					<div class="btitle">植物信息</div>
 					<div class="bform">
 				<ul>
@@ -20,16 +20,10 @@
                 </li>
                </ul>
               	
-			</div>
-            <v-if>
-               <button @click="add_collect"  class="bbutton">点击收藏</button>
-            </v-if>
-            <v-else>
-                <button @click="del_collect"  class="bbutton">取消收藏</button>
-            </v-else>
-
-			
-		</div>
+			</div >
+               <button align="center" v-if="is_col.flag === false" @click="add_collect"  class="bbutton">点击收藏</button>
+                <button align="center" v-else @click="del_collect"  class="bbutton">取消收藏</button>
+    	</div>
 		
       <!-- <Footer /> -->
   </div>
@@ -210,7 +204,7 @@ export default{
 		background-color: #f0f0f0;
 	}
 .bbutton{
-        //display: block;
+        display: block;
 		width: 20%;
 		height: 40px;
 		border-radius: 24px;

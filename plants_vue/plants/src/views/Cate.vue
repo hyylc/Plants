@@ -5,10 +5,10 @@
           <div v-if="headData.headers == 0">
               该分类下暂时没有植物被收录。
           </div>
-        <div style="background-color:white;opacity:0.8">
-            //这里要获取不同分类并显示，还得附上url
+        <div v-else style="background-color:white;opacity:0.8">
+            <!-- //这里要获取不同分类并显示，还得附上url
             //可以从现有的url获取植物信息
-            
+             -->
             <b-row>
                 <b-col cols="12" md="12">    
                     

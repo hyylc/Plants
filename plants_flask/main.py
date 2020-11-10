@@ -58,14 +58,14 @@ def dologin():
         else:
             resData = {
                 "resCode" : 1,
-                "data" : data,
+                "data" : False,
                 "message" : '用户名或密码不正确'
             }
             return jsonify(resData)
     else:
         resData = {
             "resCode" : 1,
-            "data" : [],
+            "data" : False,
             "message" : '请求方式错误'
         }
         return jsonify(resData)
