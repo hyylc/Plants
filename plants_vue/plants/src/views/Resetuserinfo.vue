@@ -50,7 +50,7 @@ export default{
 						if (resp.data.resCode == 0){
 							alert('修改成功');
 							context.root.$router.push({
-                            	path:'/userinfo/'+user.userID
+                            	path:'/userinfo/'
                         	});
 						}
 						else{
@@ -79,6 +79,7 @@ export default{
 	.contain{
 		width: 60%;
 		height: 60%;
+		opacity:0.75;
 		position: relative;
 		top: 50%;
 		left: 50%;
@@ -88,6 +89,7 @@ export default{
 		box-shadow: 0 0 3px #f0f0f0,
 					0 0 6px #f0f0f0;
 	}
+		
 	.big-box{
 		width: 70%;
 		height: 100%;

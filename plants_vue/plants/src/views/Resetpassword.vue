@@ -5,8 +5,8 @@
 					<div class="btitle">修改密码</div>
 					<div class="bform">
 						<input type="text" placeholder="输入密码" v-model="user.userpwd">
-						<input type="text" placeholder="输入新密码" v-model="user.newuserpwd">
-						<input type="text" placeholder="再次输入新密码" v-model="user.renewuserpwd">
+						<input type="password" placeholder="输入新密码" v-model="user.newuserpwd">
+						<input type="password" placeholder="再次输入新密码" v-model="user.renewuserpwd">
 					</div>
 					<button class="bbutton" @click="changepass">修改密码</button>
 		</div>
@@ -19,8 +19,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { stripscript } from "../apis/validate";
 import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
-import { Get_userinfo } from "../apis/read";
-import { Reset_userpwd } from "../apis/read";
+import { Get_userinfo , Reset_userpwd} from "../apis/read";
 
 	export default{
 		name:'login-register',
@@ -46,12 +45,12 @@ import { Reset_userpwd } from "../apis/read";
 			
 			Get_userinfo(user).then(resp => {
 				console.log("In reset response.data.data.UserPassword = ",resp.data.data[0].UserPassword)
-				console.log("In reset user.userpwd = ",user.userpwd)
 				getuser.password = resp.data.data[0].UserPassword
 				
 			});
 
 			const changepass = ()=>{// == false????这里要修改，用stripscript判断有没有非法字符
+				console.log("In reset user.userpwd = ",user.userpwd)
 				if(stripscript(user.userpwd) == false || user.userpwd == ''||stripscript(user.newuserpwd) == false || user.newuserpwd == ''||stripscript(user.renewuserpwd) == false || user.renewuserpwd == ''
 				){
                		alert("输入信息有误，请确认后重新输入。")
@@ -72,7 +71,7 @@ import { Reset_userpwd } from "../apis/read";
 							alert('修改成功');
 							//修改成功后跳回个人中心
 							context.root.$router.push({
-                            	path:'/userinfo/'+user.userID
+                            	path:'/userinfo/'
                         	});
 						}
 						else{
@@ -101,6 +100,7 @@ import { Reset_userpwd } from "../apis/read";
 	.contain{
 		width: 60%;
 		height: 60%;
+		opacity:0.75;
 		position: relative;
 		top: 50%;
 		left: 50%;
@@ -157,6 +157,7 @@ import { Reset_userpwd } from "../apis/read";
 		outline: none;
 		border-radius: 10px;
 		padding-left: 2em;
+		margin-top: 12px;
 		background-color: #f0f0f0;
 	}
 	.bbutton{

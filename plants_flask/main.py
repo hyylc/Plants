@@ -249,7 +249,7 @@ def delete_user():
         if data == True:
             resData = {
                 "resCode" : 0,            
-                "data" : [],
+                "data" : data,
                 "message" : '已删除该用户'
             }
             # 这里要刷新管理员的管理页面
@@ -257,7 +257,7 @@ def delete_user():
         else:
             resData = {
                 "resCode" : 1,            
-                "data" : [],
+                "data" : data,
                 "message" : '删除失败'
             }
             return jsonify(resData)
@@ -295,6 +295,31 @@ def get_plant_by_id(plantID):
             "message" : '请求方式错误'
         }
         return jsonify(resData)
+
+# 针对管理员，根据植物ID查询植物数据并返回（植物ID）
+@app.route('/plantA/<int:plantID>',methods=['POST']) # 路由
+def get_plant_by_id1(plantID):
+    if request.method == 'POST':
+        print('捕获到post请求：',plantID)
+        #plant_cate就是植物标签,这里是双子叶
+        #如何根据标签确定查询语句的范围哦？
+        # 捕获到post请求：从而确定查询什么数据，在这里要完成查询并返回数据
+        p = Plant()
+        data = p.get_plant_by_plantID(plantID)
+        resData = {
+            "resCode" : 0,            
+            "data" : data,
+            "message" : '得到植物信息'
+        }
+        return jsonify(resData)
+    else:
+        resData = {
+            "resCode" : 1,            
+            "data" : [],
+            "message" : '请求方式错误'
+        }
+        return jsonify(resData)
+
 
 # 根据标签，查询数据并返回（植物标签）
 @app.route('/<string:plant_cate>',methods=['POST']) # 路由

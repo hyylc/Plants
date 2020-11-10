@@ -3,15 +3,8 @@
       <Header />
 	  
 		<div class="contain">
-        <el-row>
-            <el-col :span="21">
-               <el-input v-model="searchData" @input="search"  placeholder="输入植物名搜索"></el-input>
-            </el-col>
-            <el-col :span="3">
-                <el-button type="success" @click="search">搜索</el-button>
-            </el-col>
-        </el-row>
-        <el-table :data="data" border>
+        
+        <el-table :data="data.slice((page-1)*10, page*10)" border>
             <el-table-column label="植物名">
 	   	    <template slot-scope="scope">
 			<!-- <el-button type="text"  herf='/plant/'+scope.row.PlantID >{{scope.row.PlantName}}</el-button>  -->
@@ -47,29 +40,32 @@ export default {
 		data() {
 			
 			return {
-				list: [], // 显示的数据
+				data: [], // 显示的数据
 				limit: 10, // 条数，每一页显示的数量
-				total: 20, // 所有的数量
+				total: 0, // 所有的数量
 				page: 1, //当前页
 				searchData: '', // 搜索内容
-				data:[],//接口返回的所有用户信息
+				// data:[],//接口返回的所有用户信息
 				user_id:''
 			}
 		},
 		created() {
-			this.pageList();
+			// this.pageList();
 			this.user_id = window.sessionStorage.UserID;
 			this.post_allcollection();
 			
 		},
 		methods: {
-			pageList() {
-				this.getList()
-			},
-			
+			// pageList() {
+			// 	this.post_allcollection()
+			// },
+			mounted() {
+            this.post_allcollection();
+       		},
 			post_allcollection() {
 				Get_collection(this.user_id).then(resp => {
 					this.data = resp.data.data
+					this.total = resp.data.data.length
 					console.log('输出结果 = ',this.data)
 				})
 			},
@@ -79,16 +75,9 @@ export default {
                         });
 			},
 			// 处理数据
-			getList() {
-				// es6过滤得到满足搜索条件的展示数据list
-				var list = this.data.filter((item, index) =>
-					item.name.includes(this.searchData)
-				) // 搜索符号条件的内容
-				console.log(list)
-				this.list = list.filter((item, index) =>
-					index < this.page * this.limit && index >= this.limit * (this.page - 1)
-				) //根据页数显示相应的内容
-				this.total = list.length
+			
+			
+
 
 				/////////
 				// var list = this.alluser
@@ -98,23 +87,23 @@ export default {
 				// ) //根据页数显示相应的内容
 				// this.total = list.length
 				////////
-			},
+			
 			// 当每页数量改变
 			handleSizeChange(val) {
 				console.log(`每页 ${val} 条`);
 				this.limit = val
-				this.getList()
+				//this.post_allcollection()
 			},
 			// 当当前页改变
 			handleCurrentChange(val) {
 				console.log(`当前页: ${val}`);
 				this.page = val
-				this.getList()
+				//this.post_allcollection()
 			},
 			// 搜索过滤数据
 			search() {
 				this.page = 1
-				this.getList()
+				// this.post_allcollection()
 			}
 		},
 	}
@@ -131,6 +120,7 @@ export default {
 	.contain{
 		width: 60%;
 		height: 100%;
+		opacity:0.75;
 		position: relative;
 		top: 50%;
 		left: 50%;

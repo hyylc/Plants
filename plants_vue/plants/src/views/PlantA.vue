@@ -1,7 +1,7 @@
 <template>
   <div id="Plant">
       <Header />
-<div class="contain">
+    <div class="contain">
 					<div class="btitle">植物信息</div>
 					<div class="bform">
 				<ul>
@@ -21,12 +21,7 @@
                </ul>
               	
 			</div>
-            <v-if>
-               <button @click="add_collect"  class="bbutton">点击收藏</button>
-            </v-if>
-            <v-else>
-                <button @click="del_collect"  class="bbutton">取消收藏</button>
-            </v-else>
+           
 
 			
 		</div>
@@ -39,7 +34,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
-import { Get_is_collected,Get_one_plant,Add_a_collection,Del_a_collection } from "../apis/read"
+import { Get_one_plant2 } from "../apis/read"
 
 export default{
     name : "Plant",
@@ -51,67 +46,19 @@ export default{
         const now_url = ref(context.root.$route.path)//ref用.value才能获取到url值
         //传递参数：植物ID
         const plantparam = reactive({
-            url:now_url.value,//'/plant/:plant_id'
+            url:now_url.value,//'/plantA/:plant_id'
         });
-        //传递参数：用户ID和植物ID
-        const collectparam = reactive({
-            user_id : '',
-            plant_id : ''
-        });
+
         //返回植物信息
         const plant = reactive({
             info:[]
         });
-        //返回是否已收藏
-        const is_col = reactive({
-            flag:''
-        });
-        
-        collectparam.user_id = window.sessionStorage.UserID;
-        collectparam.plant_id = (now_url.value.match(/\d+/g));
-        console.log("user_id = ",collectparam.user_id," plant_id = ",collectparam.plant_id)
 
         //获得植物信息
-        Get_one_plant(plantparam).then(resp => {
+        Get_one_plant2(plantparam).then(resp => {
             console.log("获得植物信息 = ",resp);
             plant.info = resp.data.data;
         });
-
-        //获得用户是否已收藏该植物
-        Get_is_collected(collectparam).then(resp => {
-            is_col.flag = resp.data.data;
-            console.log("是否收藏：",is_col.flag)
-        });
-
-        //添加收藏
-        const add_collect = ()=>{
-            //console.log("add_collect待完成的代码");
-            //调用添加收藏的接口
-            Add_a_collection(collectparam).then(resp => {
-                console.log("收藏成功 = ",resp.data.data);
-                if(resp.data.data == true){
-                    alert("收藏成功。")
-                }
-                else{
-                    alert("收藏失败。")
-                }
-            });
-        };
-
-        //取消收藏
-        const del_collect = ()=>{
-            //console.log("del_collect待完成的代码");
-            //调用删除收藏的接口
-            Del_a_collection(collectparam).then(resp => {
-                console.log("取消收藏成功 = ",resp.data.data);
-                if(resp.data.data == true){
-                    alert("取消收藏成功。")
-                }
-                else{
-                    alert("取消收藏失败。")
-                }
-            });
-        };
 
         onMounted(()=>{
             console.log("In Plant context = ", context.root.$route.path)//获取地址
@@ -119,9 +66,6 @@ export default{
 
         return {
             plant,
-            add_collect,
-            del_collect,
-            is_col,
             //fields: ['PlantID','PlantName','Characters','Location']
         }
     }

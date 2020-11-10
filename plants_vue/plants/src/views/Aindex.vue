@@ -3,15 +3,8 @@
       <Header />
 	  
 		<div class="contain" >
-        <el-row>
-            <el-col :span="21">
-               <el-input v-model="searchData" @input="search"  placeholder="输入姓名搜索"></el-input>
-            </el-col>
-            <el-col :span="3">
-                <el-button type="success" @click="search">搜索</el-button>
-            </el-col>
-        </el-row>
-        <el-table :data="data" border>
+        
+        <el-table :data="data.slice((page-1)*10, page*10)" border>
             <el-table-column label="姓名">
 	   	    <template slot-scope="scope">
 			<span>{{scope.row.UserName}}</span> 
@@ -54,27 +47,28 @@ export default {
 		data() {
 			
 			return {
-				list: [], // 显示的数据
+				data: [], // 显示的数据
 				limit: 10, // 条数，每一页显示的数量
-				total: 20, // 所有的数量
+				total: 0, // 所有的数量
 				page: 1, //当前页
 				searchData: '', // 搜索内容
-				data:[]	//接口返回的所有用户信息
+				//data:[]	//接口返回的所有用户信息
 			}
 		},
 		created() {
-			this.pageList();
+			// this.pageList();
 			this.post_alluser();
 			
 		},
 		methods: {
-			pageList() {
-				this.getList()
-			},
+			// pageList() {
+			// 	this.getList()
+			// },
 			
 			post_alluser() {
 				Get_alluser().then(resp => {
 					this.data = resp.data.data
+					this.total = this.data.length
 					console.log('输出结果 = ',this.data)
 				})
 			},
@@ -87,12 +81,6 @@ export default {
 			
 			// },
 			deleteuser(user_id){
-					// del_user(user_id).{
-					// 	this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-					// 	confirmButtonText: "确定",
-					// 	cancelButtonText: "取消",
-					// 	type: "warning"
-					// })
 					del_user(user_id).then((resp) => {
 					// 点击确认删除后向后端发起请求删除该数据
 						console.log(resp.data.data);
@@ -101,15 +89,7 @@ export default {
 							message: "删除成功!"
 						});
 					})
-					// .catch(() => {
-					// 	this.$message({
-					// 		type: "info",
-					// 		message: "已取消删除"
-					// 	});
-					// });
-				//};
 			},
-
 
 
 			// 处理数据
@@ -137,18 +117,18 @@ export default {
 			handleSizeChange(val) {
 				console.log(`每页 ${val} 条`);
 				this.limit = val
-				this.getList()
+				// this.getList()
 			},
 			// 当当前页改变
 			handleCurrentChange(val) {
 				console.log(`当前页: ${val}`);
 				this.page = val
-				this.getList()
+				// this.getList()
 			},
 			// 搜索过滤数据
 			search() {
 				this.page = 1
-				this.getList()
+				// this.getList()
 			}
 		},
 	}
@@ -165,6 +145,8 @@ export default {
 	.contain{
 		width: 60%;
 		height: 100%;
+		
+		opacity:0.85;
 		position: relative;
 		top: 50%;
 		left: 50%;

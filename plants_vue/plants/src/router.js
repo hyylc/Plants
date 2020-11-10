@@ -4,6 +4,7 @@ import Home from "./views/user_Home.vue";
 import user from "./views/user.vue";
 import UserA from "./views/UserA.vue";
 import Plant from "./views/Plant.vue";
+import PlantA from "./views/PlantA.vue";
 import plantsearch from "./views/Search_plant.vue";
 import Sign from "./views/txj_Signin.vue";
 import Resetuinfo from "./views/Resetuserinfo.vue";
@@ -96,6 +97,12 @@ export default new Router({
       path: "/plant/:plant_id",
       name: "Plant",
       component: Plant
+    },
+    //管理员看到的植物信息展示页面
+    {
+      path: "/PlantA/:plant_id",
+      name: "PlantA",
+      component: PlantA
     },
      //目类显示页面
      {

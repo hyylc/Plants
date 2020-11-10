@@ -15,7 +15,8 @@
                 <!-- <a :href="txj_Signin">注册/登录</a> -->
                 <b-nav-item v-for = "item in headData.header" :key="item.id" :href="item.url" :class="item.url == now_url ? 'active' : ''">{{item.name}}</b-nav-item>
             </b-navbar-nav>
-            <ul  class="navbar-nav ml-auto">
+
+            <ul v-if="User.UserID !== ''"   style="float:right" class="navbar-nav ml-auto">
                 <li class="form-inline">
                     <div class="form-inline">
                         <input v-model="search.key" type="text" placeholder="输入植物名称" class="mr-sm-2 from-control-sm">
@@ -64,7 +65,7 @@ export default {
             {'id':0,'name':'首页','url':'/'},
             {'id':1,'name':'个人中心','url':'/userinfo/'},
             {'id':2,'name':'我的收藏','url':'/collection/'+User.UserID},
-            {'id':3,'name':'登录/注册','url':'/Signin'},
+            {'id':3,'name':'退出','url':'/Signin'},
         ]
         headData.header = [
             {'id':0,'name':'登录/注册','url':'/Signin'},
@@ -103,7 +104,7 @@ export default {
 
 <style lang='scss' scoped>//lang告诉解释其css符合什么编译器的语法；scoped：当前vue文件生效，没有scoped则全局生效
 .background{
-  top: 0;
+  top: 50;
   left: 0;
   width: 100%;
   height: 100%;

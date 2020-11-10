@@ -103,7 +103,7 @@ class User(object):
         return resdata # 以数组形式返回
 
     def delete_user(self,user_id):
-        sql = "delete from ordinaryuser where UserID = "+str(user_id)
+        sql = "delete from ordinaryuser where ordinaryuser.UserID = "+str(user_id)
         print(sql)
         try:
             self.cursor.execute(sql)             # 执行单条sql语句

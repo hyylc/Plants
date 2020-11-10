@@ -133,6 +133,15 @@ export function Get_one_plant(postParams){
     })
 };
 
+
+export function Get_one_plant2(postParams){
+    return service.request({
+        method : 'POST',
+        url : postParams.url
+    })
+};
+
+
 export function Get_one_plant1(postParams){
     return service.request({
         method : 'POST',
@@ -164,6 +173,19 @@ export function Reset_userinfo(userParam){
         data :{
             userID : userParam.userID,
             new_name : userParam.new_name
+        }
+    });
+};
+
+
+export function Reset_userpwd(userParam){
+    return service.request({
+        method : "POST",
+        url : "/modify_pwd",
+        data :{
+            userID : userParam.userID,
+            new_pwd : userParam.newuserpwd
+
         }
     });
 };

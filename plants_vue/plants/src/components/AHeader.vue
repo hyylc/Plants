@@ -38,7 +38,8 @@ export default {
       
         headData.headers = [
             {'id':0,'name':'用户管理','url':'/Aindex'},
-            {'id':1,'name':'植物管理','url':'/Aplant'}
+            {'id':1,'name':'植物管理','url':'/Aplant'},
+            {'id':2,'name':'退出','url':'/Signin'},
         ]
         //console.log("headData.headers = ",headData.headers)
 
@@ -55,7 +56,7 @@ export default {
 
 <style lang='scss' scoped>//lang告诉解释其css符合什么编译器的语法；scoped：当前vue文件生效，没有scoped则全局生效
 .background{
-  top: 0;
+  top: 50;
   left: 0;
   width: 100%;
   height: 100%;

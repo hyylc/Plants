@@ -7,14 +7,13 @@
               <ul>
                 <li v-for="item in user.userinfo" :key="item.UserID">
                     <div class="bform">
-						<p><span>昵称:</span><a>{{item.UserName}}</a></p>
-						<p><span>用户类别:</span><a>{{item.UserType}}</a></p>
-						<p><span>注册时间:</span><a>{{item.RegisterTime}}</a></p>
+						<p><span>昵	称:</span><a style="width:200px;heigh:50px;color:#2f4f4f">{{item.UserName}}</a></p>
+						<p><span>用户类别:</span><a style="width:200px;heigh:50px;color:#2f4f4f">{{item.UserType}}</a></p>
+						<p><span>注册时间:</span><time style="width:200px;heigh:50px;color:#2f4f4f">{{item.RegisterTime}}</time></p>
 					</div>
                 </li>
                </ul>
-               <button class="bbutton" @click="changeinfo">修改信息</button>	
-               <button class="bbutton" @click="changepass">修改密码</button>						
+               <p><button class="bbutton" @click="changeinfo">修改信息</button>	<button class="bbutton" @click="changepass">修改密码</button></p>					
 		  </div>
       </b-container>
       <!-- <Footer /> -->
@@ -88,7 +87,7 @@ export default{
 
 
 <style lang='scss' scoped>//lang告诉解释其css符合什么编译器的语法；scoped：当前vue文件生效，没有scoped则全局生效
-.login-register{
+.userinfo{
 		width: 100vw;
 		height: 100vh;
 		box-sizing: border-box;
@@ -96,8 +95,8 @@ export default{
 	.contain{
 		width: 60%;
 		height: 60%;
+		opacity:0.75;
 		position: relative;
-        
         margin-top: 200px;
 		left: 50%;
 		transform: translate(-50%,-50%);
@@ -132,11 +131,15 @@ export default{
 	.bform{
 		width: 100%;
 		height: 40%;
-		padding: 2em 0;
-		display: flex;
+		padding: 2em 3em;
+		margin:auto;
 		flex-direction: column;
 		justify-content: space-around;
 		align-items: center;
+	}
+	a{
+		
+		
 	}
     li{
         list-style: none;
@@ -166,7 +169,7 @@ export default{
 		background-color: #f0f0f0;
 	}
 	.bbutton{
-        display: block;
+        //display: block;
 		width: 20%;
 		height: 40px;
 		border-radius: 24px;
@@ -175,7 +178,7 @@ export default{
 		background-color: rgb(57,167,176);
 		color: #fff;
 		font-size: 0.9em; 
-        margin-left: auto;
+        margin-left: 120px;
         margin-right: auto;
         text-align: center;
 		cursor: pointer;
