@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Header from "../components/Header";
+import Header from "../components/AHeader";
 import Footer from "../components/Footer";
 import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
 import { Get_one_plant2 } from "../apis/read"

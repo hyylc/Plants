@@ -12,6 +12,14 @@ export function del_user(userinfo){
     });
 };
 
+
+export function username_list(){
+    return service.request({
+        method : "post",
+        url : "/username_list",//对应flask里的路由
+    });
+};
+
 export function del_plant(plantinfo){
     return service.request({
         method : "post",

@@ -66,8 +66,6 @@ class Collection(object):
                 self.conn.rollback()                   # Rollback in case there is any error
                 return False
 
-
-
     # 删除一条收藏记录
     def delete_collection(self,user_id,plant_id):
         sql = "delete from collection where PlantID = %s AND UserID = %s"

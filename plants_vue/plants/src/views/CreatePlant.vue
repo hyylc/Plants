@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import Header from "../components/Header";
+import Header from "../components/AHeader";
 import Footer from "../components/Footer";
 import { stripscript } from "../apis/validate"
 import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
@@ -69,6 +69,9 @@ import { Create_plantinfo} from "../apis/read"
 			console.log("now Family = ",plantinfo.Family)
 			Create_plantinfo(plantinfo).then(resp => {
 				console.log("resp = ",resp);
+				if(resp.data.resCode == 0){
+					alert("已添加该植物。")
+				}
 			});
 
         };

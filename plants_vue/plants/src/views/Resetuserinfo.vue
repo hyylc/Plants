@@ -3,7 +3,7 @@
 		
       <Header />
 		<div class="contain">
-					<div class="btitle">修改资料</div>
+					<div class="btitle">修改信息</div>
 					<div class="bform">
 						<input type="text" placeholder="用户名" v-model="user.new_name">
 					</div>
@@ -136,6 +136,8 @@ export default{
 		border: none;
 		outline: none;
 		border-radius: 10px;
+		margin-top: 10px;
+		font-size: 1em;
 		padding-left: 2em;
 		background-color: #f0f0f0;
 	}

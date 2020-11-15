@@ -118,7 +118,7 @@ class Plant(object):
             resdata.append(temp)
         return resdata # 以数组形式返回
         
-    # 根据标签，返回30条植物信息
+    # 根据标签，返回植物信息
     def get_cates_plants_30(self, plant_cate):
         # 这里要判断，英文对应的中文标签，确定查询的cate是啥
         select_cate = plant_cate

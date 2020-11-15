@@ -2,6 +2,7 @@
 	<div class="big">	
       <Header />
 	  
+	  <el-button type="success" @click="creat" style="margin-left:930px;">创建植物</el-button>
 		<div class="contain">
         
         <el-table :data="data.slice((page-1)*10, page*10)" border>
@@ -76,6 +77,11 @@ export default {
 			checkDetail(plant_id){
 				this.$router.push({
                             path:'/plantA/'+plant_id,
+                        });
+			},
+			creat(){
+				this.$router.push({
+                            path:'/CreatePlant'
                         });
 			},
 			modifyPlant(plant_id){

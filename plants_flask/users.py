@@ -84,7 +84,7 @@ class User(object):
 
     #获得一个用户的个人资料
     def get_one_user(self,user_id):
-        sql = "select * from ordinaryuser where UserID = "+str(user_id)
+        sql = "select UserName,UserType,RegisterTime,UserPassword from ordinaryuser where UserID = "+str(user_id)
         print(sql)
         self.cursor.execute(sql)
         data = []
@@ -93,8 +93,21 @@ class User(object):
             data.append(temp)
         return data # 以数组形式返回
 
+
+    #获得所有用户的昵称
+    def get_all_name(self):
+        sql = "select ordinaryuser.UserName from ordinaryuser"
+        print(sql)
+        self.cursor.execute(sql)
+        data = []
+        for temp in self.cursor.fetchall(): # 所有结果
+            print(temp)
+            data.append(temp)
+        return data # 以数组形式返回
+
+    #获取所有用户信息
     def get_all_users(self):
-        sql = "select * from ordinaryuser"
+        sql = "select UserID,UserName from ordinaryuser"
         self.cursor.execute(sql)
         resdata = []
         for temp in self.cursor.fetchall(): # 所有结果
@@ -102,7 +115,15 @@ class User(object):
             resdata.append(temp)
         return resdata # 以数组形式返回
 
+    #删除某个用户信息（先删除收藏信息）
     def delete_user(self,user_id):
+        sql = "delete from collection where collection.UserID = "+str(user_id)
+        print(sql)
+        try:
+            self.cursor.execute(sql)             # 执行单条sql语句
+            self.conn.commit()                     # 提交到数据库执行
+        except:
+            self.conn.rollback()                   # Rollback in case there is any error
         sql = "delete from ordinaryuser where ordinaryuser.UserID = "+str(user_id)
         print(sql)
         try:

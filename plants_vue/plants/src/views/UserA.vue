@@ -13,8 +13,7 @@
 					</div>
                 </li>
                </ul>
-               <button class="bbutton" @click="changeinfo">修改信息</button>	
-               <button class="bbutton" @click="changepass">修改密码</button>						
+               
 		  </div>
       </b-container>
       <!-- <Footer /> -->

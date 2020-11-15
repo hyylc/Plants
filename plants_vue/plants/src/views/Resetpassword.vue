@@ -4,11 +4,11 @@
 		<div class="contain">
 					<div class="btitle">修改密码</div>
 					<div class="bform">
-						<input type="text" placeholder="输入密码" v-model="user.userpwd">
+						<input type="password" placeholder="输入原密码" v-model="user.userpwd">
 						<input type="password" placeholder="输入新密码" v-model="user.newuserpwd">
 						<input type="password" placeholder="再次输入新密码" v-model="user.renewuserpwd">
 					</div>
-					<button class="bbutton" @click="changepass">修改密码</button>
+					<button class="bbutton" @click="changepass">保存设置</button>
 		</div>
 		<!-- <Footer /> -->
 	</div>
@@ -53,7 +53,7 @@ import { Get_userinfo , Reset_userpwd} from "../apis/read";
 				console.log("In reset user.userpwd = ",user.userpwd)
 				if(stripscript(user.userpwd) == false || user.userpwd == ''||stripscript(user.newuserpwd) == false || user.newuserpwd == ''||stripscript(user.renewuserpwd) == false || user.renewuserpwd == ''
 				){
-               		alert("输入信息有误，请确认后重新输入。")
+               		alert("输入密码含有非法字符，请确认后重新输入。")
 				}
 				else if(user.newuserpwd != user.renewuserpwd ){
                		alert("两次输入密码不一致，请确认后重新输入。")
@@ -156,8 +156,9 @@ import { Get_userinfo , Reset_userpwd} from "../apis/read";
 		border: none;
 		outline: none;
 		border-radius: 10px;
+		margin-top: 10px;
+		font-size: 1em;
 		padding-left: 2em;
-		margin-top: 12px;
 		background-color: #f0f0f0;
 	}
 	.bbutton{

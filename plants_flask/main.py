@@ -3,6 +3,7 @@ from flask import Flask,jsonify,request,json
 from users import User
 from plant import Plant
 from collection import Collection
+from datetime import datetime
 import re
 
 """
@@ -32,7 +33,13 @@ def is_string_validate(str):
         # 不合法
         return True
 
-
+def getdate(str):
+    dd = "Thu, 05 Nov 2020 23:25:45 GMT"
+    GMT_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
+    return datetime.strptime(dd, GMT_FORMAT)
+ 
+#output:
+#2018-11-09 14:41:35
 #########用户类接口函数#########
 
 # 用户登录
@@ -80,6 +87,9 @@ def get_user_by_userid():
         u = User()
         data = u.get_one_user(user_id)
         print(data)
+        for i in data:
+            i['RegisterTime'] = str(getdate(i['RegisterTime']))
+            print(i['RegisterTime'])
         resData = {
             'resCode' : 0,
             'data' : data,
@@ -261,6 +271,32 @@ def delete_user():
                 "message" : '删除失败'
             }
             return jsonify(resData)
+    else:
+        resData = {
+            "resCode" : 1,            
+            "data" : [],
+            "message" : '请求方式错误'
+        }
+        return jsonify(resData)
+
+
+# 查看所有用户昵称
+@app.route('/username_list',methods=['POST','GET']) # 路由
+def get_all_username():
+    if request.method == 'POST':
+        u = User()
+        data = u.get_all_name()
+        print(data)
+        res = []
+        for i in data:
+            res.append(i['UserName'])
+        print(res)
+        resData = {
+            'resCode' : 0,
+            'data' : res,
+            'massage' : '得到用户昵称'
+        }
+        return jsonify(resData)
     else:
         resData = {
             "resCode" : 1,            

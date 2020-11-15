@@ -15,9 +15,9 @@
 				<div class="big-contain" v-else>
 					<div class="btitle">创建账户</div>
 					<div class="bform">
-						<input v-model="user1.username" type="text"  placeholder="用户名" >
-						<input v-model="user1.password" type="password"  placeholder="密码" >
-						<input v-model="user1.password2" type="password"  placeholder="再次密码" >
+						<input v-model="user1.username" type="text"  placeholder="用户名（4-10位，由字母大小写和数字组成）" >
+						<input v-model="user1.password" type="password"  placeholder="密码    （8-20位，由字母大小写和数字组成）" >
+						<input v-model="user1.password2" type="password"  placeholder="再次确认密码" >
 					</div>
 					<button class="bbutton" @click="register">注册</button>
 				</div>
@@ -43,10 +43,9 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { stripscript } from "../apis/validate.js"
-import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
+import { reactive } from "@vue/composition-api";//ref定义常量;reactive定义对象
 import { do_login } from "../apis/read"
-import { do_register } from "../apis/read"
-import login_inVue from './login_in.vue';
+import { do_register , username_list} from "../apis/read"
 
 export default{
 		name:'login-register',
@@ -57,23 +56,31 @@ export default{
 
 		setup(props, context){
 			window.sessionStorage.setItem('UserID','')
-			//数据绑定
+			//登录数据绑定
 			const user = reactive({
 				username:'',
 				password:''
 			});
-
+			//注册数据绑定
 			const user1 = reactive({
 				username:'',
 				password:'',
 				password2:''
 			});
-
+			//是否处于登陆页面
 			const isLogin = reactive({
 				flag:true
-			}) 
-
-
+			});
+			//判断注册用户名是否重复
+			const all_username = reactive({
+				names : [],
+				flag : false
+			});
+			//登录成功
+			const login_su = reactive({
+				flag:false
+			});
+			//登录页面和注册页面转换
 			const changeType = ()=>{
 				isLogin.flag = !isLogin.flag
 				user1.username = ''
@@ -83,17 +90,21 @@ export default{
 				user.password = ''
 			};
 
-			const login_su = reactive({
-				flag:false
+			username_list().then(resp => {
+				all_username.names = resp.data.data;
+				console.log("all usernames : ",all_username.names)
 			});
 
 			const Onlogin = ()=>{
 				console.log("In Onlogin username = ",user.username);
 				console.log("In Onlogin password = ",user.password);
 
-				if(stripscript(user.username) == false || user.username == '' || user.password == false || user.password == ''){
-					alert("输入信息有误，请确认后重新输入。")
-				} 
+				if(stripscript(user.username) == false || user.username == ''){
+					alert("用户名存在非法字符或为空，请确认后重新输入。")
+				}
+				else if(stripscript(user.password) == false || user.password == ''){
+					alert("密码存在非法字符或为空，请确认后重新输入。")
+				}
 				else{
 					//发起请求获得结果
 					do_login(user).then(resp => {
@@ -119,7 +130,7 @@ export default{
 						}
 						else{
 							//停留在当前页面
-							alert('用户名或密码错误，请重新输入。');
+							alert('用户名或密码错误，请确认后重新输入。');
 						}
 						
 					});
@@ -130,31 +141,47 @@ export default{
 				console.log("In register username = ",user1.username);
 				console.log("In register password = ",user1.password);
 				console.log("In register password = ",user1.password2);
-
-				if(stripscript(user1.username) == false || user1.username == '' || 
-				user1.password == false || user1.password == ''||user1.password2 == false || user1.password2 == ''){
-					alert("输入信息有误，请确认后重新输入。")
-				} 
+				
+				all_username.flag = false;
+				for(var i=0;i<all_username.names.length;i++){
+					if(user1.username == all_username.names[i]){
+						all_username.flag = true;
+						console.log("用户名重复：",all_username.flag)
+					}
+				}
+				if(stripscript(user1.username) == false || user1.username == '' ){
+					alert("用户名存在非法字符或为空，请确认后重新输入。")
+				}
+				else if(stripscript(user1.password) == false || user1.password == ''|| stripscript(user1.password2) == false || user1.password2 == ''){
+					alert("密码存在非法字符或为空，请确认后重新输入。")
+				}
 				else if(user1.password != user1.password2){
 					alert("两次密码不一致，请确认后重新输入。")
-				} 
+				}
+				else if(all_username.flag == true){
+					alert("用户名已存在，请重新输入。")
+				}
+				else if(user1.username.length < 4 || user1.username.length > 10){
+					alert("用户名长度不符，请重新输入。")
+				}
+				else if(user1.password.length < 8 || user1.password.length > 20){
+					alert("密码长度不符，请重新输入。")
+				}
 				else{
 					//发起请求获得结果
-					do_register(user1).then(resp => {
-						console.log("In register resp = ",resp);
-						console.log("In register resp.data.message = ",resp.data.message)
-						if (resp.data.resCode == 0){
-							///登录成功,保存session,跳转到用户首页
-							alert('注册成功！');
-							
-							isLogin.flag = !isLogin.flag;
-							//console.log("UserID = ",resp.data.data.UserID)
-						}
-						else{
-							//停留在当前页面
-							alert('用户名或密码输入有误，请重新输入');
-						}
-					});
+						do_register(user1).then(resp => {
+							console.log("In register resp = ",resp);
+							console.log("In register resp.data.message = ",resp.data.message)
+							if (resp.data.resCode == 0){
+								///注册成功,转换到登录
+								alert('注册成功！');
+								isLogin.flag = !isLogin.flag;
+							}
+							else{
+								//停留在当前页面
+								alert('注册失败。');
+							}
+						});
 				}
 			};
 
@@ -218,6 +245,7 @@ export default{
 		height: 40%;
 		padding: 2em 0;
 		display: flex;
+		margin-top: 10px;
 		flex-direction: column;
 		justify-content: space-around;
 		align-items: center;
@@ -235,7 +263,9 @@ export default{
 		height: 30px;
 		border: none;
 		outline: none;
-		border-radius: 10px;
+		border-radius: 5px;
+		margin-top: 10px;
+		font-size: 0.7em;
 		padding-left: 2em;
 		background-color: #f0f0f0;
 	}

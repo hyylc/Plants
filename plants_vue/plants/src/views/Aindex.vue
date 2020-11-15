@@ -84,10 +84,10 @@ export default {
 					del_user(user_id).then((resp) => {
 					// 点击确认删除后向后端发起请求删除该数据
 						console.log(resp.data.data);
-						this.$message({
-							type: "success",
-							message: "删除成功!"
-						});
+						if(resp.data.data == true){
+							alert("已删除该用户。")
+							location.reload()
+						}
 					})
 			},
 

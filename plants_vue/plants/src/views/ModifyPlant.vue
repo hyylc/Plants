@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import Header from "../components/Header";
+import Header from "../components/AHeader";
 import Footer from "../components/Footer";
 import { stripscript } from "../apis/validate"
 import { reactive, ref, onMounted} from "@vue/composition-api";//ref定义常量;reactive定义对象
@@ -164,11 +164,12 @@ import { Get_one_plant1 , Modify_plantinfo} from "../apis/read"
 	}
     p{
         text-align: left;
-        font-size: 0.2rem;
+        font-size: 0.6rem;
         margin:auto;
         font-weight: bold;
         color: rgb(57,167,176);
     }
+	
 	.bform .errTips{
 		display: block;
 		width: 50%;
@@ -179,7 +180,7 @@ import { Get_one_plant1 , Modify_plantinfo} from "../apis/read"
 	}
 	.bform .input{
 		width: 50%;
-		height: 30px;
+		height: 90px;
 		border: none;
 		outline: none;
 		border-radius: 10px;
